@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Boncajag/Turtle-Shell-INTEX#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "ejs": "^3.1.10",
     "express": "^4.21.1",

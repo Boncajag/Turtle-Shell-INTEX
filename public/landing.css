@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F5;
+    color: #333;
+}
+header {
+    background-color: #869986;
+    color: #333;
+    padding: 1px;
+    text-align: center;
+}
+.hero {
+    background-color: #D1D1D1;
+    padding: 80px 40px;
+    text-align: center;
+    border: 2px solid #D2D2D2;
+}
+.hero h1 {
+    font-size: 2.5em;
+    margin: 0 0 10px;
+    color: #333;
+}
+.hero p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+.info-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #F8F8F8;
+}
+.info-text {
+    max-width: 40%;
+}
+.info-text h2 {
+    font-size: 1.8em;
+    color: #333;
+}
+.info-text p {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.6;
+}
+.info-highlight {
+    background-color: #FFF2CF;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid #E7E5D6;
+}
+.action-section {
+    padding: 40px 20px;
+    background-color: #F5F5F5;
+    text-align: center;
+}
+.action-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+.action-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+.card {
+    background-color: white;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+.card p {
+    margin-top: 10px;
+    color: #666;
+}
+.card button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #FFF2CF;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.card button:hover {
+    background-color: #FFF2CF;
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF; /* Button color */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    text-align: center; /* Center text */
+    border: none; /* Optional: Remove border */
+    cursor: pointer; /* Make it look clickable */
+    margin: 5px; /* Space between buttons */
+}
+.button-link:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+.button-link:active {
+    background-color: #004085; /* Even darker on click */
+}
+
+footer {
+    background-color: #333;
+    color: rgb(0, 0, 0);
+    padding: 10px 0;
+    text-align: center;
+}

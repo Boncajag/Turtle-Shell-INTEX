@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="landing.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Internal Landing Page</h1>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome, <%= username %>!</h1>
+        <p>This is the internal landing page.</p>
+    </div>
+
+    <div class="action-section">
+        <h2>Manage Your Options</h2>
+        <div class="action-cards">
+            <div class="card">
+                <h3>User Maintenance</h3>
+                <a href="/userMaintenance" class="button-link">Go to User Maintenance</a>
+            </div>
+            <div class="card">
+                <h3>Volunteer Maintenance</h3>
+                <a href="/volunteerMaintenance" class="button-link">Go to Volunteer Maintenance</a>
+            </div>
+            <div class="card">
+                <h3>Event Maintenance</h3>
+                <a href="/eventMaintenance" class="button-link">Go to Event Maintenance</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/logout" class="button-link">Logout</a>
+    </footer>
+</body>
+</html>

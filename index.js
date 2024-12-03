@@ -6,11 +6,14 @@ let security = false;
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
-app.set('view engine', 'ejs'); //Tell express we use ejs
-app.set('views', path.join(__dirname, 'views')); //Set path where to get ejs views folder
-app.use(express.urlencoded({extended: true})); //Pull things out from input in HTML forms
+const bcrypt = require('bcrypt');
 
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));//Set path to public/images folder
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Connect to pgAdmin
 const knex = require('knex') ({
@@ -25,56 +28,75 @@ const knex = require('knex') ({
     }
 });
 
-// Middleware setup
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'yourSecretKey', // Replace with a strong secret key
-    resave: false,
-    saveUninitialized: true,
-}));
+// --- SECURITY ---
+        // Middleware setup
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(session({
+            secret: 'yourSecretKey', // Replace with a strong secret key
+            resave: false,
+            saveUninitialized: true,
+        }));
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+        // Dummy user credentials
+        const user = {
+            username: 'admin',
+            password: 'password123', // In production, use hashed passwords
+        };
 
-// Dummy user credentials
-const user = {
-    username: 'admin',
-    password: 'password123', // In production, use hashed passwords
-};
+        // Middleware to check if user is logged in
+        function isAuthenticated(req, res, next) {
+            if (req.session.loggedIn) {
+                return next();
+            }
+            res.redirect('/login');
+        }
 
-// Middleware to check if user is logged in
-function isAuthenticated(req, res, next) {
-    if (req.session.loggedIn) {
-        return next();
-    }
-    res.redirect('/login');
-}
+// --- ROUTES ---
 
-// Routes
+// EXTERNAL LANDING - GET
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.render('/externalLanding');
 });
 
+// LOGIN - GET & POST
 app.get('/login', (req, res) => {
     res.render('login', { error: null });
 });
 
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    if (username === user.username && password === user.password) {
-        req.session.loggedIn = true;
-        res.redirect('/landing');
-    } else {
-        res.render('login', { error: 'Invalid username or password' });
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body
+    try {
+        // Query the database for the user
+        const user = await knex('users').where({ username }).first();
+
+        if (!user) {
+            return res.render('login', { error: 'Invalid username or password' });
+        }
+
+        // Compare the hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
+        if (isPasswordValid) {
+            req.session.loggedIn = true;
+            req.session.username = username; // Store username in session
+            res.redirect('/internalLanding');
+        } else {
+            res.render('login', { error: 'Invalid username or password' });
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.render('login', { error: 'Something went wrong' });
     }
 });
 
-app.get('/landing', isAuthenticated, (req, res) => {
-    res.render('landing', { username: user.username });
+// app.get('/internalLanding', isAuthenticated, (req, res) => {
+
+// INTERNAL LANDING - GET
+app.get('/internalLanding', (req, res) => {
+    res.render('internalLanding', { username: req.session.username });
 });
 
-// Logout
+// LOGOUT - GET
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login');
