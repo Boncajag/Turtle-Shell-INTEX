@@ -1,0 +1,25 @@
+{
+  "name": "turtle-shell-intex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Boncajag/Turtle-Shell-INTEX.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Boncajag/Turtle-Shell-INTEX/issues"
+  },
+  "homepage": "https://github.com/Boncajag/Turtle-Shell-INTEX#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1"
+  }
+}
