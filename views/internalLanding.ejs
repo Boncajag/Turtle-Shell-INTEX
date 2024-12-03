@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    <link rel="stylesheet" href="landing.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="/landing.css">
 </head>
 <body>
     <header>
@@ -18,20 +18,15 @@
 
     <div class="action-section">
         <h2>Manage Your Options</h2>
-        <div class="action-cards">
-            <div class="card">
-                <h3>User Maintenance</h3>
-                <a href="/userMaintenance" class="button-link">Go to User Maintenance</a>
-            </div>
-            <div class="card">
-                <h3>Volunteer Maintenance</h3>
-                <a href="/volunteerMaintenance" class="button-link">Go to Volunteer Maintenance</a>
-            </div>
-            <div class="card">
-                <h3>Event Maintenance</h3>
-                <a href="/eventMaintenance" class="button-link">Go to Event Maintenance</a>
-            </div>
-        </div>
+        <form action="/userMaintenance" method="GET" style="display:inline;">
+            <button type="submit" class="button-link">User Maintenance</button>
+        </form>
+        <form action="/volunteerMaintenance" method="GET" style="display:inline;">
+            <button type="submit" class="button-link">Volunteer Maintenance</button>
+        </form>
+        <form action="/eventMaintenance" method="GET" style="display:inline;">
+            <button type="submit" class="button-link">Event Maintenance</button>
+        </form>
     </div>
 
     <footer>

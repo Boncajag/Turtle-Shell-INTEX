@@ -34,22 +34,18 @@
              <td><%= row.first_name %></td>
              <td><%= row.last_name %></td>
              <td><%= row.email %></td>
-             
+
              <td><%= row.area_code + '-' + row.phone %></td>
              <td><%= row.address + ' ' + row.zip_code %></td>
              <td><%= row.city %></td>
-             <td><%= row.last_name %></td>
-             <!-- includes date that the row was created -->
-             <td><%= new Date(row.date_created).toLocaleDateString('en-US') %></td> <!-- Format date -->
-             <td><%= row.active_poke ? 'Yes' : 'No' %></td>
-             <td><%= row.gender %></td>
-             <td><%= row.poke_type_description %></td>
+             <td><%= row.state %></td>
+             <td><%= row.referral_source%></td>
+             <td><%= row.sewing_level %></td>
+             <td><%= row.hours_per_month %></td>
+             <td><%= row.title%></td>
+             <td><%= row.username%></td>
+             <td><%= row.password%></td>
              <td>
-               <!-- <form action="/pokemon/<%= row.id %>" method="GET" style="display:inline;">
-                 <button type="submit">View</button> -->
-               <!-- </form> -->
-               <!-- button for editing and deleting the pokemon by the user. Delete button includes a confirm function to ensure
-                    the user wants to delete the record -->
                <form action="/editUser/<%= row.volunteer_id %>" method="GET" style="display:inline;">
                  <button type="submit">Edit</button>
                </form>
@@ -60,12 +56,10 @@
            </tr>
           <% } %>
          <% }) %>
-
-
      </tbody>
    </table>
-   <!-- button for deleting a pokemon row -->
-   <form action="/addPoke" method="GET" style="display: flex; justify-content: center; margin: 20px 0;">
+   <!-- button for adding a row to the users -->
+   <form action="/addUser" method="GET" style="display: flex; justify-content: center; margin: 20px 0;">
      <button type="submit">Add</button>
    </form>
  </body>

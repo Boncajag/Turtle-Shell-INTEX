@@ -67,7 +67,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body
     try {
         // Query the database for the user
-        const user = await knex('users').where({ username }).first();
+        const user = await knex('volunteers').where({ username }).first();
 
         if (!user) {
             return res.render('login', { error: 'Invalid username or password' });
