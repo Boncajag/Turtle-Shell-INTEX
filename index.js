@@ -2,6 +2,7 @@
 let express = require("express");
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt')
 // Make express object for the website
 let app = express();
 // Import path
@@ -65,18 +66,35 @@ app.get('/login', (req, res) => {
     res.render('login', { error: null });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    if (username === user.username && password === user.password) {
-        req.session.loggedIn = true;
-        res.redirect('/landing');
-    } else {
-        res.render('login', { error: 'Invalid username or password' });
+
+    try {
+        // Query the database for the user
+        const user = await knex('users').where({ username }).first();
+
+        if (!user) {
+            return res.render('login', { error: 'Invalid username or password' });
+        }
+
+        // Compare the hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
+        if (isPasswordValid) {
+            req.session.loggedIn = true;
+            req.session.username = username; // Store username in session
+            res.redirect('/internalLanding');
+        } else {
+            res.render('login', { error: 'Invalid username or password' });
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.render('login', { error: 'Something went wrong' });
     }
 });
 
 app.get('/landing', isAuthenticated, (req, res) => {
-    res.render('landing', { username: user.username });
+    res.render('landing', { username: req.session.username });
 });
 
 // Logout
