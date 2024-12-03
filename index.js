@@ -3,13 +3,17 @@ let app = express();//Create express object
 let path = require('path');//Bring in path
 const port = process.env.PORT || 3000;//Specify the port
 let security = false;
-const bcrypt = require('bcrypt');
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));//Set path to public/images folder
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Connect to pgAdmin
 const knex = require('knex') ({
@@ -24,44 +28,43 @@ const knex = require('knex') ({
     }
 });
 
-// Middleware setup
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'yourSecretKey', // Replace with a strong secret key
-    resave: false,
-    saveUninitialized: true,
-}));
+// --- SECURITY ---
+        // Middleware setup
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(session({
+            secret: 'yourSecretKey', // Replace with a strong secret key
+            resave: false,
+            saveUninitialized: true,
+        }));
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+        // Dummy user credentials
+        const user = {
+            username: 'admin',
+            password: 'password123', // In production, use hashed passwords
+        };
 
-// Dummy user credentials
-const user = {
-    username: 'admin',
-    password: 'password123', // In production, use hashed passwords
-};
+        // Middleware to check if user is logged in
+        function isAuthenticated(req, res, next) {
+            if (req.session.loggedIn) {
+                return next();
+            }
+            res.redirect('/login');
+        }
 
-// Middleware to check if user is logged in
-function isAuthenticated(req, res, next) {
-    if (req.session.loggedIn) {
-        return next();
-    }
-    res.redirect('/login');
-}
+// --- ROUTES ---
 
-// Routes
+// EXTERNAL LANDING - GET
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.render('/externalLanding');
 });
 
+// LOGIN - GET & POST
 app.get('/login', (req, res) => {
     res.render('login', { error: null });
 });
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-
+    const { username, password } = req.body
     try {
         // Query the database for the user
         const user = await knex('users').where({ username }).first();
@@ -86,11 +89,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/landing', isAuthenticated, (req, res) => {
-    res.render('landing', { username: req.session.username });
+// app.get('/internalLanding', isAuthenticated, (req, res) => {
+
+// INTERNAL LANDING - GET
+app.get('/internalLanding', (req, res) => {
+    res.render('internalLanding', { username: req.session.username });
 });
 
-// Logout
+// LOGOUT - GET
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login');

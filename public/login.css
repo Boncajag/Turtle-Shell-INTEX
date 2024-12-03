@@ -1,0 +1,87 @@
+/* General styling */
+/* Body styling to center everything */
+/* Body styling for horizontal centering */
+body {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center content horizontally */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    height: 100vh; /* Full viewport height */
+    background-color: #e6f5d0; /* Turtle-themed background */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Title styling */
+h1 {
+    text-align: center; /* Center text */
+    margin-top: 30px; /* Add space above the title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #2e8b57; /* Sea green color */
+    font-size: 1.8rem;
+}
+
+/* Form container styling */
+form {
+    display: flex;
+    flex-direction: column; /* Stack input elements */
+    align-items: center; /* Center inputs and button */
+    background-color: #ffffff; /* White background for the form */
+    padding: 20px; /* Add space inside the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 300px; /* Fixed width for the form */
+}
+
+/* Error message */
+p {
+    color: #ff6347; /* Tomato red for error text */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Labels */
+label {
+    font-size: 1rem;
+    color: #2f4f2f;
+}
+
+/* Inputs */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #8fbc8f; /* Light green border */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    background-color: #3cb371; /* Medium sea green */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2e8b57; /* Darker sea green */
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    form {
+        width: 90%;
+    }
+}
+
+.error-message {
+    color: #ff6347; /* Tomato red */
+    font-weight: bold;
+    text-align: center;
+}
