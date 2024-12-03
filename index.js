@@ -1,32 +1,27 @@
-// Import express
-let express = require("express");
+let express = require('express');//Bring in express
+let app = express();//Create express object
+let path = require('path');//Bring in path
+const port = process.env.PORT || 3000;//Specify the port
+let security = false;
+
 const session = require('express-session');
 const bodyParser = require('body-parser');
-// Make express object for the website
-let app = express();
-// Import path
-let path = require("path");
-// Add security
-let security = false
-// This is the port we are listening on
-const port = 3000;
-// Tells express we are using ejs
-app.set("view engine", "ejs");
-// Sets the path where to get the ejs views folder
-app.set("views", path.join(__dirname, "views"));
-// Easier to pull things out from the input inside of HTML forms. The tag needs to have a name.
-app.use(express.urlencoded({extended: true}));
+app.set('view engine', 'ejs'); //Tell express we use ejs
+app.set('views', path.join(__dirname, 'views')); //Set path where to get ejs views folder
+app.use(express.urlencoded({extended: true})); //Pull things out from input in HTML forms
 
-// Use Knex class to get the methods. Connect to pgAdmin.
-const knex = require("knex") ({
-    client : "pg",
+app.use(express.static(path.join(__dirname, 'public')));//Set path to public/images folder
+
+// Connect to pgAdmin
+const knex = require('knex') ({
+    client : 'pg',
     connection : {
-        host : "localhost",
-        user : "postgres",
-        // Change password and database name
-        password : "byhisgrace",
-        database : "starwars",
-        port : 5432
+        host : process.env.RDS_HOSTNAME || 'localhost',
+        user : process.env.RDS_USERNAME || 'postgres',
+        password: process.env.RDS_PASSWORD || 'byhisgrace', // Make sure to change password and database name
+        database : process.env.RDS_DB_NAME || 'Turtle-Shell-INTEX',
+        port : process.env.RDS_PORT || 5432,
+        ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
 });
 
