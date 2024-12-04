@@ -130,7 +130,7 @@ app.get('/userMaintenance', (req, res) => {
       });
   });
 
-// edit USER - GET - editing rows
+// EDIT USER - GET - editing rows
 app.get('/editUser/:volunteer_id', (req, res) => {
     const volunteer_id = req.params.volunteer_id;
   
@@ -151,7 +151,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
   });
   
 
-// edit USER - POST - editing rows
+// EDIT USER - POST - editing rows
   app.post('/editUser/:volunteer_id', (req, res) => {
     let volunteer_id = req.params.volunteer_id;
     // Access each value directly from req.body
@@ -198,7 +198,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
       });
   }); 
 
-// delete USER - POST - delete a row
+// DELETE USER - POST - delete a row
 app.post('/deleteUser/:volunteer_id', (req, res) => {
     const volunteer_id= req.params.volunteer_id;
     knex('volunteers')
@@ -213,7 +213,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
       });
   });
 
-// add USER - GET - adding rows
+// ADD USER - GET - adding rows
   app.get('/addUser', (req, res) => {
     // Fetch Pokémon types to populate the dropdown
     knex('volunteers')
@@ -230,7 +230,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
 
 
 
-// add USER - POST - Adding rows
+// ADD USER - POST - Adding rows
 app.post('/addUser', (req, res) => {
     // Extract form values from req.body
     const first_name = req.body.first_name || ''; // Default to empty string
@@ -304,6 +304,11 @@ app.post('/addUser', (req, res) => {
         console.error('Error fetching events:', err);
         res.status(500).send('An error occurred while loading the events maintenance page.');
       });
+  });
+
+// TABLEAU
+app.get('/tableauDash', (req, res) => {
+    res.render('tableauDash'); // your-template-file.ejs or .html
   });
 
 // Listening on port 3000
