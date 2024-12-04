@@ -6,6 +6,7 @@
     <title>Events Maintenance</title>
     <link rel="stylesheet" href="eventMaintenance.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="schedule.css">
     <script>
         // Function to toggle table visibility
         function toggleTable(tableId) {
@@ -15,7 +16,15 @@
     </script>
 </head>
 <body>
-    <h1>Events Maintenance</h1>
+    <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
+        <h1 style="margin: 0;">Event Maintenance</h1>
+        <p>Schedule Your Event</p>
+        <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
+            <a href="/internalLanding" style="margin-right: 15px; text-decoration: none; color: #333;">Admin Home</a>
+            </div>
+            <a href="/logout" style="margin-right: 15px; text-decoration: none; color: #333;">Logout</a>
+        </nav>
+    </header>
 
     <% const statuses = ['Pending', 'Approved', 'Declined', 'Completed']; %>
     <% statuses.forEach((status, index) => { %>
