@@ -32,12 +32,12 @@
     </thead>
     <tbody>
       <% user.forEach(row => { %>
-        <% if (row.title === 'User') { %>
+        <% if (row.title === 'User (Admin)') { %>
           <tr>
             <td><%= row.first_name %></td>
             <td><%= row.last_name %></td>
             <td><%= row.email %></td>
-            <td><%= row.area_code %>-<%= row.phone_number %></td>
+            <td><%= row.area_code + '-' + row.phone_number %></td>
             <td><%= row.street %></td>
             <td><%= row.city %></td>
             <td><%= row.state %></td>
