@@ -291,8 +291,6 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
         });
 });
 
-
-
 // ADD USER - POST - Adding rows
 app.post('/addUser', (req, res) => {
     // Extract form values from req.body
@@ -369,6 +367,96 @@ app.post('/addUser', (req, res) => {
       });
   });
 
+  app.get('/addEvent', (req, res) => {
+    res.render('addEvent');
+  });
+
+  app.post('/addEvent', (req, res) => {
+    knex('events')
+        .insert({
+            event_date_time: req.body.event_date_time,
+            event_host_first_name: req.body.event_host_first_name,
+            event_host_last_name: req.body.event_host_last_name,
+            event_host_email: req.body.event_host_email,
+            participants_estimate: req.body.participants_estimate,
+            event_type: req.body.event_type,
+            event_address: req.body.event_address,
+            event_city: req.body.event_city,
+            event_state: req.body.event_state,
+            event_zip_code: req.body.event_zip_code,
+            duration_estimate: req.body.duration_estimate,
+            event_host_area_code: req.body.event_host_area_code,
+            event_host_phone_number: req.body.event_host_phone_number,
+            jen_story: req.body.jen_story,
+            status: 'Pending'
+            // participant_actual:
+            // duration_actual:
+            // pockets_produced:
+            // collars_produced:
+            // envelopes_produced:
+            // vests_produced:
+            // completed_products:
+            // satisfaction_rating:
+            // feedback:
+            // comments:
+        }).then(() => res.redirect('/eventMaintenance'))
+        .catch(error => {
+            console.error('Error inserting event:', error);
+            res.status(500).send('Internal Server Error');
+        });
+  });
+
+  app.post('/deleteEvent/:id', (req, res) => {
+    knex('events')
+        .where('event_id', req.params.id)
+        .del()
+        .then(() => res.redirect('/eventMaintenance'))
+        .catch(err => res.status(500).json({ err }));
+  })
+
+  app.get('/editEvent/:id' ,(req, res) => {
+    knex('events')
+        .select('*')
+        .where('event_id', req.params.id)
+        .then(events => {
+            if (events.length > 0) {
+                res.render('editEvent', { myevent: events[0] });
+            } else {
+                res.status(404).send('Event not found');
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching event:', err);
+            res.status(500).json({ err });
+        });
+  });
+
+  app.post('/editEvent/:id', (req, res) => {
+    console.log(req.body);
+    knex('events')
+        .where('event_id', parseInt(req.params.id))
+        .update({
+            event_date_time: req.body.event_date_time || null,  // Set default if undefined
+            event_host_first_name: req.body.event_host_first_name || '',
+            event_host_last_name: req.body.event_host_last_name || '',
+            event_host_email: req.body.event_host_email || '',
+            event_host_area_code: req.body.event_host_area_code || '', 
+            event_host_phone_number: req.body.event_host_phone_number || '',
+            event_type: req.body.event_type || '',
+            event_address: req.body.event_address || '',
+            event_city: req.body.event_city || '',
+            event_state: req.body.event_state || '',
+            event_zip_code: req.body.event_zip_code || '',
+            duration_estimate: req.body.duration_estimate || 0,
+            participants_estimate: req.body.participants_estimate || 0,
+            jen_story: req.body.jen_story || ''
+        })
+        .then(() => res.redirect('/eventMaintenance'))
+        .catch(err => {
+            console.error('Error updating event:', err);
+            res.status(500).send('Internal Server Error');
+        });
+});
 
 // VOLUNTEER MAINTENANCE - GET
 app.get('/volunteerMaintenance', (req, res) => {
