@@ -128,7 +128,10 @@ app.post('/login', async (req, res) => {
         }
 
         // Query the database for the user
-        const user = await knex('volunteers').where({ username }).first();
+        const user = await knex('volunteers')
+            .where({ username })
+            .andWhere({ title: 'User (Admin)' }) // Add the condition to check the Title
+            .first();
 
         if (user) {
             // Compare the provided password with the stored password (plaintext)
