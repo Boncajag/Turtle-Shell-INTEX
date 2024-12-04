@@ -6,19 +6,37 @@
         <title>Login</title>
         <link rel="stylesheet" href="/landing.css">
     </head>
-<body>
-    <h1>Login</h1>
-    <% if (error) { %>
-        <p class="error-message"><%= error %></p>
-    <% } %>
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-</body>
+    <body>
+        <header>
+            <h1>Login</h1>
+        </header>
+        <section class="hero">
+            <h1>Welcome Back!</h1>
+            <% if (error) { %>
+                <p class="error-message" style="color: red; font-weight: bold;"><%= error %></p>
+            <% } %>
+            <form action="/login" method="POST" class="action-section">
+                <div class="login-section">
+                    <div class="login-box">
+                        <form>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" name="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer>
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </footer>
+    </body>
 </html>
