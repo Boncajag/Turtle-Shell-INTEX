@@ -1,66 +1,71 @@
-<!-- Page for the main Admin to login and update/change records for all of the users of admin -->
 <!DOCTYPE html>
- <html>
- <head>
-   <title>Admin User Maintenance</title>
- </head>
- <body>
-    <h1>Maintaining All Admininstrator Records</h1>
-    <a href="/logout">Logout</a>
-    <a href="/">Home</a>
-   <!-- table for the pokemon records to be stored -->
-   <table>
-     <thead>
-       <tr>
-        <!-- table headers for all the columns -->
-         <th>First Name</th>
-         <th>Last Name</th>
-         <th>Email</th>
-         <th>Phone Number</th>
-         <th>Address</th>
-         <th>City</th>
-         <th>State</th>
-         <th>Referral Source</th>
-         <th>Sewing Level</th>
-         <th>Hours Willing to Work Per Month</th>
-       </tr>
-     </thead>
-     <tbody>
-      <!-- for each loop that itterates through each row to display all of the data -->
-         <% user.forEach(row => { %>
-          <% if (user.title == 'user') { %>
-           <tr>
-             <!-- all of the data from the volunteers table that can be edited on the site -->
-             <td><%= row.first_name %></td>
-             <td><%= row.last_name %></td>
-             <td><%= row.email %></td>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin User Maintenance</title>
+</head>
+<body>
+  <h1>Admin User Maintenance</h1>
+  <a href="/logout">Logout</a>
+  <a href="/">Home</a>
 
-             <td><%= row.area_code + '-' + row.phone %></td>
-             <td><%= row.address + ' ' + row.zip_code %></td>
-             <td><%= row.city %></td>
-             <td><%= row.state %></td>
-             <td><%= row.referral_source%></td>
-             <td><%= row.sewing_level %></td>
-             <td><%= row.hours_per_month %></td>
-             <td><%= row.title%></td>
-             <td><%= row.username%></td>
-             <td><%= row.password%></td>
-             <td>
-               <form action="/editUser/<%= row.volunteer_id %>" method="GET" style="display:inline;">
-                 <button type="submit">Edit</button>
-               </form>
-               <form action="/deleteUser/<%= row.volunteer_id %>" method="POST" style="display:inline;">
-                 <button type="submit" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
-               </form>
-             </td>
-           </tr>
-          <% } %>
-         <% }) %>
-     </tbody>
-   </table>
-   <!-- button for adding a row to the users -->
-   <form action="/addUser" method="GET" style="display: flex; justify-content: center; margin: 20px 0;">
-     <button type="submit">Add</button>
-   </form>
- </body>
- </html>
+  <!-- Table for displaying user records -->
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip Code</th>
+        <th>Referral Source</th>
+        <th>Sewing Level</th>
+        <th>Hours per Month</th>
+        <th>Title</th>
+        <th>Username</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% user.forEach(row => { %>
+        <% if (row.title === 'User') { %>
+          <tr>
+            <td><%= row.first_name %></td>
+            <td><%= row.last_name %></td>
+            <td><%= row.email %></td>
+            <td><%= row.area_code %>-<%= row.phone_number %></td>
+            <td><%= row.street %></td>
+            <td><%= row.city %></td>
+            <td><%= row.state %></td>
+            <td><%= row.zip_code %></td>
+            <td><%= row.referall_source %></td>
+            <td><%= row.sewing_level %></td>
+            <td><%= row.hours_per_month %></td>
+            <td><%= row.title %></td>
+            <td><%= row.username %></td>
+            <td>
+              <!-- Edit Button -->
+              <form action="/editUser/<%= row.volunteer_id %>" method="GET" style="display:inline;">
+                <button type="submit">Edit</button>
+              </form>
+              <!-- Delete Button -->
+              <form action="/deleteUser/<%= row.volunteer_id %>" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <!-- Button to add a new user -->
+  <form action="/addUser" method="GET" style="text-align:center; margin-top:20px;">
+    <button type="submit">Add New User</button>
+  </form>
+</body>
+</html>
