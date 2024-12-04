@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Edit Event</h1>
+    
+    <form action="/editEvent/<%= myevent.event_id %>" method="POST">
+        <label for="event_host_first_name">Host First Name:</label>
+        <input type="text" id="event_host_first_name" name="event_host_first_name" value="<%= myevent.event_host_first_name %>" required>
+        <br><br>
+        <label for="event_host_last_name">Host Last Name:</label>
+        <input type="text" id="event_host_last_name" name="event_host_last_name" value="<%= myevent.event_host_last_name %>" required>
+        <br><br>
+        <label for="event_host_email">Host Email:</label>
+        <input type="email" id="event_host_email" name="event_host_email" value="<%= myevent.event_host_email %>" required>
+        <br><br>
+        <label for="event_host_area_code">Area Code:</label>
+        <input type="text" id="event_host_area_code" name="event_host_area_code" value="<%= myevent.event_host_area_code %>" maxlength="3" required>
+        <br><br>
+        <label for="event_host_phone_number">Phone Number:</label>
+        <input type="text" id="event_host_phone_number" name="event_host_phone_number" value="<%= myevent.event_host_phone_number %>" maxlength="7" required>
+        <br><br>
+        <label for="event_date_time">Event Date & Time:</label>
+        <input type="datetime-local" id="event_date_time" name="event_date_time" value="<%= new Date(myevent.event_date_time).toISOString().slice(0, 16) %>" required>
+        <br><br>
+        <label for="event_type">Event Type:</label>
+        <select id="event_type" name="event_type" required>
+            <option value="Sewing" <%= myevent.event_type === 'Sewing' ? 'selected' : '' %>>Sewing</option>
+            <option value="Non-Sewing" <%= myevent.event_type === 'Non-Sewing' ? 'selected' : '' %>>Non-Sewing</option>
+            <option value="Both" <%= myevent.event_type === 'Both' ? 'selected' : '' %>>Both</option>
+        </select>
+        <br><br>
+        <label for="event_address">Event Address:</label>
+        <input type="text" id="event_address" name="event_address" value="<%= myevent.event_address %>" required>
+        <br><br>
+        <label for="event_city">Event City:</label>
+        <input type="text" id="event_city" name="event_city" value="<%= myevent.event_city %>" required>
+        <br><br>
+        <label for="event_state">Event State:</label>
+        <input type="text" id="event_state" name="event_state" value="<%= myevent.event_state %>" maxlength="2" required>
+        <br><br>
+        <label for="event_zip_code">Event Zip Code:</label>
+        <input type="text" id="event_zip_code" name="event_zip_code" value="<%= myevent.event_zip_code %>" required>
+        <br><br>
+        <label for="duration_estimate">Duration Estimate (hrs):</label>
+        <input type="number" id="duration_estimate" name="duration_estimate" value="<%= myevent.duration_estimate %>" required>
+        <br><br>
+        <label for="participants_estimate">Participants Estimate:</label>
+        <input type="number" id="participants_estimate" name="participants_estimate" value="<%= myevent.participants_estimate %>" required>
+        <br><br>
+        <label for="jen_story">Jen's Story:</label>
+        <select id="jen_story" name="jen_story" required>
+            <option value="Yes" <%= myevent.jen_story === 'Yes' ? 'selected' : '' %>>Yes</option>
+            <option value="No" <%= myevent.jen_story === 'No' ? 'selected' : '' %>>No</option>
+        </select>
+        <br><br>
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

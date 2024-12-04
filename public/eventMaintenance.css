@@ -1,0 +1,32 @@
+/* General table styling */
+.table-wrapper {
+    max-width: 100%; /* Ensure the table doesn't exceed the container's width */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    margin-bottom: 20px; /* Space between each table */
+    border: 1px solid #ddd; /* Optional: Border around the table container */
+    padding: 10px; /* Padding around the scrollable area */
+}
+
+table {
+    width: max-content; /* Allows table to extend based on content */
+    border-collapse: collapse; /* Combines borders for cleaner lines */
+}
+
+th, td {
+    padding: 8px 12px; /* Padding inside table cells */
+    border: 1px solid #ddd; /* Adds borders between table cells */
+    text-align: left; /* Aligns text to the left for readability */
+    white-space: nowrap; /* Prevents content from wrapping onto new lines */
+}
+
+th {
+    background-color: #f4f4f4; /* Light grey background for table headers */
+}
+
+/* Optional: Add some hover styling for rows */
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+
+
