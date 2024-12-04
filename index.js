@@ -99,8 +99,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// user Maintenance - GET
-// Root route to display Pokemon records (home page)
+// USER MAINTENANCE - GET
 app.get('/userMaintenance', (req, res) => {
     knex('volunteers')
       .select(
@@ -131,7 +130,7 @@ app.get('/userMaintenance', (req, res) => {
       });
   });
 
-// user Maintenance - GET - editing rows
+// edit USER - GET - editing rows
 app.get('/editUser/:volunteer_id', (req, res) => {
     const volunteer_id = req.params.volunteer_id;
   
@@ -152,7 +151,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
   });
   
 
-// user Maintenance - POST - editing rows
+// edit USER - POST - editing rows
   app.post('/editUser/:volunteer_id', (req, res) => {
     let volunteer_id = req.params.volunteer_id;
     // Access each value directly from req.body
@@ -171,7 +170,6 @@ app.get('/editUser/:volunteer_id', (req, res) => {
     const title = req.body.title;
     const username = req.body.username;
     const password = req.body.password;
-    // Update the Pokémon in the database
     knex('volunteers')
       .where('volunteer_id', volunteer_id)
       .update({
@@ -200,7 +198,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
       });
   }); 
 
-// user Maintenance - POST - delete a row
+// delete USER - POST - delete a row
 app.post('/deleteUser/:volunteer_id', (req, res) => {
     const volunteer_id= req.params.volunteer_id;
     knex('volunteers')
@@ -215,7 +213,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
       });
   });
 
-// user Maintenance - GET - adding rows
+// add USER - GET - adding rows
   app.get('/addUser', (req, res) => {
     // Fetch Pokémon types to populate the dropdown
     knex('volunteers')
@@ -232,7 +230,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
 
 
 
-// User Maintenance - POST - Adding rows
+// add USER - POST - Adding rows
 app.post('/addUser', (req, res) => {
     // Extract form values from req.body
     const first_name = req.body.first_name || ''; // Default to empty string
@@ -279,6 +277,34 @@ app.post('/addUser', (req, res) => {
       });
   });
   
+  // EVENT MAINTENANCE - GET
+  app.get('/eventMaintenance', (req, res) => {
+    knex('events')
+      .select('*') // Select all columns
+      .orderBy('status', 'asc') // Order by Status (ascending) and optionally by Event_Date_Time
+      .then(events => {
+        // Categorize events by status
+        const categorizedEvents = {
+          Pending: [],
+          Approved: [],
+          Declined: [],
+          Completed: []
+        };
+  
+        events.forEach(event => {
+          if (categorizedEvents[event.status]) {
+            categorizedEvents[event.status].push(event);
+          }
+        });
+  
+        // Render the EJS view and pass the categorized data
+        res.render('eventMaintenance', { categorizedEvents });
+      })
+      .catch(err => {
+        console.error('Error fetching events:', err);
+        res.status(500).send('An error occurred while loading the events maintenance page.');
+      });
+  });
 
 // Listening on port 3000
 app.listen(port, () => console.log("Listening"))
