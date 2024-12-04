@@ -237,7 +237,7 @@ app.post('/addUser', (req, res) => {
     const last_name = req.body.last_name || '';
     const email = req.body.email || '';
     const area_code = req.body.area_code || '';
-    const phone_number = req.body.phone || '';
+    const phone_number = req.body.phone_number || '';
     const street = req.body.street || '';
     const zip_code = req.body.zip_code || '';
     const city = req.body.city || '';
@@ -411,8 +411,8 @@ app.post('/addVolunteer', (req, res) => {
   const last_name = req.body.last_name || '';
   const email = req.body.email || '';
   const area_code = req.body.area_code || '';
-  const phone_number = req.body.phone || '';
-  const address = req.body.address || '';
+  const phone_number = req.body.phone_number || '';
+  const street = req.body.street || '';
   const zip_code = req.body.zip_code || '';
   const city = req.body.city || '';
   const state = req.body.state || '';
@@ -431,7 +431,7 @@ app.post('/addVolunteer', (req, res) => {
       email: email,
       area_code: area_code,
       phone_number: phone_number, // Assuming column in DB is phone_number
-      street: address, // Assuming column is 'street'
+      street: street, // Assuming column is 'street'
       zip_code: zip_code,
       city: city,
       state: state,
