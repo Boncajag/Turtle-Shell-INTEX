@@ -159,8 +159,8 @@ app.get('/editUser/:volunteer_id', (req, res) => {
     const last_name = req.body.last_name;
     const email = req.body.email;
     const area_code = req.body.area_code;
-    const phone_number = req.body.phone;
-    const address = req.body.address;
+    const phone_number = req.body.phone_number;
+    const street = req.body.street;
     const zip_code = req.body.zip_code;
     const city = req.body.city;
     const state = req.body.state;
@@ -178,7 +178,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
         email: email,
         area_code: area_code,
         phone_number: phone_number, // Assuming the column in the database is phone_number
-        street: address, // Assuming the column is named 'street'
+        street: street, // Assuming the column is named 'street'
         zip_code: zip_code,
         city: city,
         state: state,
@@ -190,7 +190,7 @@ app.get('/editUser/:volunteer_id', (req, res) => {
         password: password
       })
       .then(() => {
-        res.redirect('/userMaintenance'); // Redirect to the list of Pokémon after saving
+        res.redirect('/userMaintenance'); // Redirect to the list of users after saving
       })
       .catch(error => {
         console.error('Error updating User:', error);
@@ -205,7 +205,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
       .where('volunteer_id', volunteer_id)
       .del() // Deletes the record with the specified ID
       .then(() => {
-        res.redirect('/userMaintenance'); // Redirect to the Pokémon list after deletion
+        res.redirect('/userMaintenance'); // Redirect to the users list after deletion
       })
       .catch(error => {
         console.error('Error deleting User:', error);
@@ -215,11 +215,11 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
 
 // ADD USER - GET - adding rows
   app.get('/addUser', (req, res) => {
-    // Fetch Pokémon types to populate the dropdown
+    // Fetch users types to populate the dropdown
     knex('volunteers')
         .select('volunteer_id')
         .then(user => {
-            // Render the add form with the Pokémon types data
+            // Render the add form with the users types data
             res.render('addUser', { user });
         })
         .catch(error => {
@@ -238,7 +238,7 @@ app.post('/addUser', (req, res) => {
     const email = req.body.email || '';
     const area_code = req.body.area_code || '';
     const phone_number = req.body.phone || '';
-    const address = req.body.address || '';
+    const street = req.body.street || '';
     const zip_code = req.body.zip_code || '';
     const city = req.body.city || '';
     const state = req.body.state || '';
@@ -249,7 +249,7 @@ app.post('/addUser', (req, res) => {
     const username = req.body.username || '';
     const password = req.body.password || ''; // Consider hashing the password for security
   
-    // Insert the new user into the database
+    // Insert the new volunteerinto the database
     knex('volunteers')
       .insert({
         first_name: first_name,
@@ -257,7 +257,7 @@ app.post('/addUser', (req, res) => {
         email: email,
         area_code: area_code,
         phone_number: phone_number, // Assuming column in DB is phone_number
-        street: address, // Assuming column is 'street'
+        street: street, // Assuming column is 'street'
         zip_code: zip_code,
         city: city,
         state: state,
@@ -305,6 +305,151 @@ app.post('/addUser', (req, res) => {
         res.status(500).send('An error occurred while loading the events maintenance page.');
       });
   });
+
+// EDIT VOLUNTEER - GET - editing rows
+app.get('/editVolunteer/:volunteer_id', (req, res) => {
+  const volunteer_id = req.params.volunteer_id;
+
+  knex('volunteers')
+    .where('volunteer_id', volunteer_id)
+    .first() // Retrieve a single record
+    .then(volunteer => {
+      if (!volunteer) {
+        return res.status(404).send('Volunteer not found');
+      }
+      // Pass the retrieved volunteerdata to the edit page
+      res.render('editVolunteer', { volunteer });
+    })
+    .catch(error => {
+      console.error('Error fetching volunteer for editing:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
+// EDIT VOLUNTEER - POST - editing rows
+app.post('/editVolunteer/:volunteer_id', (req, res) => {
+  let volunteer_id = req.params.volunteer_id;
+  // Access each value directly from req.body
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  const email = req.body.email;
+  const area_code = req.body.area_code;
+  const phone_number = req.body.phone_number;
+  const street = req.body.street;
+  const zip_code = req.body.zip_code;
+  const city = req.body.city;
+  const state = req.body.state;
+  const referall_source = req.body.referall_source;
+  const sewing_level = req.body.sewing_level;
+  const hours_per_month = parseInt(req.body.hours_per_month); // Convert to integer
+  const title = req.body.title;
+  const username = req.body.username;
+  const password = req.body.password;
+  knex('volunteers')
+    .where('volunteer_id', volunteer_id)
+    .update({
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      area_code: area_code,
+      phone_number: phone_number, // Assuming the column in the database is phone_number
+      street: street, // Assuming the column is named 'street'
+      zip_code: zip_code,
+      city: city,
+      state: state,
+      referall_source: referall_source, // Assuming typo in your schema is intentional
+      sewing_level: sewing_level,
+      hours_per_month: hours_per_month,
+      title: title,
+      username: username,
+      password: password
+    })
+    .then(() => {
+      res.redirect('/volunteerMaintenance'); // Redirect to the list of volunteer after saving
+    })
+    .catch(error => {
+      console.error('Error updating volunteer:', error);
+      res.status(500).send('Internal Server Error');
+    });
+}); 
+
+// DELETE VOLUNTEER - POST - delete a row
+app.post('/deleteVolunteer/:volunteer_id', (req, res) => {
+  const volunteer_id= req.params.volunteer_id;
+  knex('volunteers')
+    .where('volunteer_id', volunteer_id)
+    .del() // Deletes the record with the specified ID
+    .then(() => {
+      res.redirect('/volunteerMaintenance'); // Redirect to the volunteer list after deletion
+    })
+    .catch(error => {
+      console.error('Error deleting volunteer:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+// ADD VOLUNTEER - GET - adding rows
+app.get('/addVolunteer', (req, res) => {
+  // Fetch volunteer types to populate the dropdown
+  knex('volunteers')
+      .select('volunteer_id')
+      .then(volunteer => {
+          // Render the add form with the volunteer types data
+          res.render('addVolunteer', { volunteer });
+      })
+      .catch(error => {
+          console.error('Error fetching volunteer: ', error);
+          res.status(500).send('Internal Server Error');
+      });
+});
+
+// ADD VOLUNTEER - POST - Adding rows
+app.post('/addVolunteer', (req, res) => {
+  // Extract form values from req.body
+  const first_name = req.body.first_name || ''; // Default to empty string
+  const last_name = req.body.last_name || '';
+  const email = req.body.email || '';
+  const area_code = req.body.area_code || '';
+  const phone_number = req.body.phone || '';
+  const address = req.body.address || '';
+  const zip_code = req.body.zip_code || '';
+  const city = req.body.city || '';
+  const state = req.body.state || '';
+  const referall_source = req.body.referall_source || '';
+  const sewing_level = req.body.sewing_level || 'Beginner'; // Default to Beginner
+  const hours_per_month = parseInt(req.body.hours_per_month, 10) || 0; // Default to 0 hours
+  const title = req.body.title || '';
+  const username = req.body.username || '';
+  const password = req.body.password || ''; // Consider hashing the password for security
+
+  // Insert the new volunteer into the database
+  knex('volunteers')
+    .insert({
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      area_code: area_code,
+      phone_number: phone_number, // Assuming column in DB is phone_number
+      street: address, // Assuming column is 'street'
+      zip_code: zip_code,
+      city: city,
+      state: state,
+      referall_source: referall_source, // Correct typo if it's intentional
+      sewing_level: sewing_level,
+      hours_per_month: hours_per_month,
+      title: title,
+      username: username,
+      password: password // Store securely in production
+    })
+    .then(() => {
+      res.redirect('/volunteerMaintenance'); // Redirect to the maintenance page after adding
+    })
+    .catch(error => {
+      console.error('Error adding volunteer:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 
 // TABLEAU
 app.get('/tableauDash', (req, res) => {
