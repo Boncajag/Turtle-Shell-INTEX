@@ -51,7 +51,66 @@ const knex = require('knex') ({
 
 // EXTERNAL LANDING - GET
 app.get('/', (req, res) => {
-    res.render('/externalLanding');
+    res.render('externalLanding');
+});
+
+// EXTERNAL LANDING - Schedule
+app.get('/schedule', (req, res) => {
+  res.render('schedule'); // For the schedule page
+});
+
+// EXTERNAL LANDING - New Event Submission
+app.post('/add-event', (req, res) => {
+  const { name, date, location, description } = req.body;
+
+  // Add the new event to the mock database
+  events.push({ name, date, location, description });
+
+  // Redirect back to the schedule page
+  res.redirect('/schedule');
+});
+
+// EXTERNAL LANDING - Volunteer Page/Sign Up
+app.get('/volunteer', (req, res) => {
+  res.render('volunteer');
+});
+
+app.post('/volunteer-signup', (req, res) => {
+  const {
+      first_name,
+      last_name,
+      email,
+      area_code,
+      phone_number,
+      street,
+      city,
+      state,
+      zip_code,
+      how_they_heard,
+      sewing_level,
+      hours_month
+  } = req.body;
+
+  console.log(`New Volunteer: ${first_name} ${last_name}`);
+  console.log(req.body); // Log the form data for debugging
+
+  // Send a temporary response
+  res.send('Thank you for signing up to volunteer!');
+});
+
+// EXTERNAL LANDING - Jen's Story Page
+app.get('/story', (req, res) => {
+  res.render('story'); // Ensure this matches the file name exactly
+});
+
+// EXTERNAL LANDING - Event Page
+app.get('/event', (req, res) => {
+  res.render('event'); // Ensure this renders the correct file
+});
+
+// EXTERNAL LANDING - Volunteer Home Page
+app.get('/volunteerhome', (req, res) => {
+  res.render('volunteerhome'); // Ensure this matches the `volunteerhome.ejs` file
 });
 
 // LOGIN - GET & POST
@@ -305,6 +364,39 @@ app.post('/addUser', (req, res) => {
         res.status(500).send('An error occurred while loading the events maintenance page.');
       });
   });
+
+
+// VOLUNTEER MAINTENANCE - GET
+app.get('/volunteerMaintenance', (req, res) => {
+  knex('volunteers')
+    .select(
+      'volunteer_id',
+      'first_name',
+      'last_name',
+      'email',
+      'area_code',
+      'phone_number',
+      'street',
+      'city',
+      'state',
+      'zip_code',
+      'referall_source',
+      'sewing_level',
+      'hours_per_month',
+      'title',
+      'username',
+      'password'
+    )
+    .then(volunteer => {
+      res.render('volunteerMaintenance', { volunteer });
+    })
+    // this says if something goes wrong, it'll do this
+    .catch(error => {
+      console.error('Error querying database:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 // EDIT VOLUNTEER - GET - editing rows
 app.get('/editVolunteer/:volunteer_id', (req, res) => {
