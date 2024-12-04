@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit User</title>
+</head>
+<body>
+  <h1>Edit User</h1>
+  <a href="/userMaintenance">Back to User Maintenance</a>
+  <form action="/editUser/<%= user.volunteer_id %>" method="POST">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" value="<%= user.first_name %>" required><br>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" value="<%= user.last_name %>" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="<%= user.email %>" required><br>
+
+    <label for="area_code">Area Code:</label>
+    <input type="text" id="area_code" name="area_code" value="<%= user.area_code %>" required><br>
+
+    <label for="phone_number">Phone Number:</label>
+    <input type="text" id="phone_number" name="phone_number" value="<%= user.phone_number %>" required><br>
+
+    <label for="street">Street Address:</label>
+    <input type="text" id="street" name="street" value="<%= user.street %>" required><br>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" value="<%= user.city %>" required><br>
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" value="<%= user.state %>" required><br>
+
+    <label for="zip_code">Zip Code:</label>
+    <input type="text" id="zip_code" name="zip_code" value="<%= user.zip_code %>" required><br>
+
+    <label for="referall_source">Referral Source:</label>
+    <input type="text" id="referall_source" name="referall_source" value="<%= user.referall_source %>"><br>
+
+    <label for="sewing_level">Sewing Level:</label>
+    <input type="text" id="sewing_level" name="sewing_level" value="<%= user.sewing_level %>"><br>
+
+    <label for="hours_per_month">Hours per Month:</label>
+    <input type="number" id="hours_per_month" name="hours_per_month" value="<%= user.hours_per_month %>"><br>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="<%= user.title %>" required><br>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="<%= user.username %>" required><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" value="<%= user.password %>" required><br>
+
+    <button type="submit">Update User</button>
+  </form>
+</body>
+</html>

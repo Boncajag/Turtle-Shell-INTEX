@@ -21,7 +21,7 @@ const knex = require('knex') ({
     connection : {
         host : process.env.RDS_HOSTNAME || 'localhost',
         user : process.env.RDS_USERNAME || 'postgres',
-        password: process.env.RDS_PASSWORD || 'byhisgrace' || 'Datapandas20', // Make sure to change password and database name
+        password: process.env.RDS_PASSWORD || 'byhisgrace', // Make sure to change password and database name
         database : process.env.RDS_DB_NAME || 'Turtle-Shell-INTEX',
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -36,6 +36,8 @@ const knex = require('knex') ({
             resave: false,
             saveUninitialized: true,
         }));
+        app.set('views', path.join(__dirname, 'views'));
+        app.set('view engine', 'ejs');
 
         // Middleware to check if user is logged in
         function isAuthenticated(req, res, next) {
@@ -44,15 +46,6 @@ const knex = require('knex') ({
             }
             res.redirect('/login');
         }
-
-        const saltRounds = 10;
-
-        // Example of hashing a password
-        const password = 'Doe';
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-            if (err) throw err;
-            console.log('Hashed password:', hash);
-        });
 
 // --- ROUTES ---
 
@@ -68,8 +61,9 @@ app.get('/login', (req, res) => {
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
+
     try {
-        // Check if username and password are provided
+        // Ensure both username and password are provided
         if (!username || !password) {
             return res.render('login', { error: 'Username and password are required' });
         }
@@ -77,31 +71,24 @@ app.post('/login', async (req, res) => {
         // Query the database for the user
         const user = await knex('volunteers').where({ username }).first();
 
-        // Handle case where user is not found
-        if (!user || !user.password_hash) {
-            return res.render('login', { error: 'Invalid username or password' });
+        if (user) {
+            // Compare the provided password with the stored password (plaintext)
+            if (user.password === password) {
+                req.session.loggedIn = true;
+                req.session.username = username; // Store username in the session
+                return res.redirect('/internalLanding');
+            }
         }
 
-        // Compare the hashed password
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-
-        if (isPasswordValid) {
-            req.session.loggedIn = true;
-            req.session.username = username; // Store username in session
-            res.redirect('/internalLanding');
-        } else {
-            res.render('login', { error: 'Invalid username or password' });
-        }
+        // If we reach here, either user not found or password mismatch
+        res.render('login', { error: 'Invalid username or password' });
     } catch (error) {
         console.error('Error during login:', error);
         res.render('login', { error: 'Something went wrong' });
     }
 });
 
-// app.get('/internalLanding', isAuthenticated, (req, res) => {
-
-// INTERNAL LANDING - GET
-app.get('/internalLanding', (req, res) => {
+app.get('/internalLanding', isAuthenticated, (req, res) => {
     res.render('internalLanding', { username: req.session.username });
 });
 
@@ -114,8 +101,8 @@ app.get('/logout', (req, res) => {
 
 // user Maintenance - GET
 // Root route to display Pokemon records (home page)
-app.get('/', (req, res) => {
-    knex('Turtle-Shell-INTEX')
+app.get('/userMaintenance', (req, res) => {
+    knex('volunteers')
       .select(
         'volunteer_id',
         'first_name',
@@ -123,11 +110,11 @@ app.get('/', (req, res) => {
         'email',
         'area_code',
         'phone_number',
-        'address',
-        'zip_code',
+        'street',
         'city',
         'state',
-        'referral_source',
+        'zip_code',
+        'referall_source',
         'sewing_level',
         'hours_per_month',
         'title',
@@ -135,7 +122,7 @@ app.get('/', (req, res) => {
         'password'
       )
       .then(user => {
-        res.render('index', { user });
+        res.render('userMaintenance', { user });
       })
       // this says if something goes wrong, it'll do this
       .catch(error => {
@@ -144,25 +131,29 @@ app.get('/', (req, res) => {
       });
   });
 
-  // user Maintenance - GET - editing rows
-  app.get('/editMaintenance/:volunteer_id', (req, res) => {
-    let volunteer_id = req.params.volunteer_id;
-    knex('Turtle-Shell-INTEX')
+// user Maintenance - GET - editing rows
+app.get('/editUser/:volunteer_id', (req, res) => {
+    const volunteer_id = req.params.volunteer_id;
+  
+    knex('volunteers')
       .where('volunteer_id', volunteer_id)
-      .first()
+      .first() // Retrieve a single record
       .then(user => {
         if (!user) {
           return res.status(404).send('User not found');
         }
+        // Pass the retrieved user data to the edit page
+        res.render('editUser', { user });
       })
       .catch(error => {
-        console.error('Error fetching User for editing:', error);
+        console.error('Error fetching user for editing:', error);
         res.status(500).send('Internal Server Error');
       });
   });
+  
 
 // user Maintenance - POST - editing rows
-  app.post('/editMaintenance/:volunteer_id', (req, res) => {
+  app.post('/editUser/:volunteer_id', (req, res) => {
     let volunteer_id = req.params.volunteer_id;
     // Access each value directly from req.body
     const first_name = req.body.first_name;
@@ -174,14 +165,14 @@ app.get('/', (req, res) => {
     const zip_code = req.body.zip_code;
     const city = req.body.city;
     const state = req.body.state;
-    const referral_source = req.body.referral_source;
+    const referall_source = req.body.referall_source;
     const sewing_level = req.body.sewing_level;
     const hours_per_month = parseInt(req.body.hours_per_month); // Convert to integer
     const title = req.body.title;
     const username = req.body.username;
     const password = req.body.password;
     // Update the Pokémon in the database
-    knex('Turtle-Shell-INTEX')
+    knex('volunteers')
       .where('volunteer_id', volunteer_id)
       .update({
         first_name: first_name,
@@ -193,7 +184,7 @@ app.get('/', (req, res) => {
         zip_code: zip_code,
         city: city,
         state: state,
-        referall_source: referral_source, // Assuming typo in your schema is intentional
+        referall_source: referall_source, // Assuming typo in your schema is intentional
         sewing_level: sewing_level,
         hours_per_month: hours_per_month,
         title: title,
@@ -212,7 +203,7 @@ app.get('/', (req, res) => {
 // user Maintenance - POST - delete a row
 app.post('/deleteUser/:volunteer_id', (req, res) => {
     const volunteer_id= req.params.volunteer_id;
-    knex('Turtle-Shell-INTEX')
+    knex('volunteers')
       .where('volunteer_id', volunteer_id)
       .del() // Deletes the record with the specified ID
       .then(() => {
@@ -227,7 +218,7 @@ app.post('/deleteUser/:volunteer_id', (req, res) => {
 // user Maintenance - GET - adding rows
   app.get('/addUser', (req, res) => {
     // Fetch Pokémon types to populate the dropdown
-    knex('Turtle-Shell-INTEX')
+    knex('volunteers')
         .select('volunteer_id')
         .then(user => {
             // Render the add form with the Pokémon types data
@@ -253,7 +244,7 @@ app.post('/addUser', (req, res) => {
     const zip_code = req.body.zip_code || '';
     const city = req.body.city || '';
     const state = req.body.state || '';
-    const referral_source = req.body.referral_source || '';
+    const referall_source = req.body.referall_source || '';
     const sewing_level = req.body.sewing_level || 'Beginner'; // Default to Beginner
     const hours_per_month = parseInt(req.body.hours_per_month, 10) || 0; // Default to 0 hours
     const title = req.body.title || '';
@@ -261,7 +252,7 @@ app.post('/addUser', (req, res) => {
     const password = req.body.password || ''; // Consider hashing the password for security
   
     // Insert the new user into the database
-    knex('Turtle-Shell-INTEX')
+    knex('volunteers')
       .insert({
         first_name: first_name,
         last_name: last_name,
@@ -272,7 +263,7 @@ app.post('/addUser', (req, res) => {
         zip_code: zip_code,
         city: city,
         state: state,
-        referral_source: referral_source, // Correct typo if it's intentional
+        referall_source: referall_source, // Correct typo if it's intentional
         sewing_level: sewing_level,
         hours_per_month: hours_per_month,
         title: title,
