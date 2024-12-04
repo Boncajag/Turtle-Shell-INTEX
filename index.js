@@ -147,6 +147,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// INTERNAL LANDING - GET
 app.get('/internalLanding', isAuthenticated, (req, res) => {
     res.render('internalLanding', { username: req.session.username });
 });
