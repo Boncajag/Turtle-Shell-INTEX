@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Add Event</h1>
+    <form id="addEventForm" action="/addEvent" method="POST">
+        <!-- Other input fields for the event -->
+        <label for="event_date_time">Event Date and Time:</label>
+        <input type="datetime-local" id="event_date_time" name="event_date_time" required>
+        <br><br>
+        <label for="event_host_first_name">Host First Name:</label>
+        <input type="text" id="event_host_first_name" name="event_host_first_name" required>
+        <br><br>
+        <label for="event_host_last_name">Host Last Name:</label>
+        <input type="text" id="event_host_last_name" name="event_host_last_name" required>
+        <br><br>
+        <label for="event_host_email">Host Email:</label>
+        <input type="email" id="event_host_email" name="event_host_email" required>
+        <br><br>
+        <label for="participants_estimate">Participants Est.:</label>
+        <input type="number" id="participants_estimate" name="participants_estimate" required>
+        <br><br>
+        <label for="event_type">Type:</label>
+        <select type="text" id="event_type" name="event_type" required>
+            <option value="Sewing">Sewing</option>
+            <option value="Non-Sewing">Non-Sewing</option>
+            <option value="Both">Both</option>
+        </select>
+        <br><br>
+        <label for="event_address">Street:</label>
+        <input type="text" id="event_address" name="event_address" required>
+        <br><br>
+        <label for="event_city">City:</label>
+        <input type="text" id="event_city" name="event_city" required>
+        <br><br>
+        <label for="event_state">State:</label>
+        <input type="text" id="event_state" name="event_state" required>
+        <br><br>
+        <label for="event_zip_code">Zip Code:</label>
+        <input type="text" id="event_zip_code" name="event_zip_code" required>
+        <br><br>
+        <label for="duration_estimate">Duration Est.:</label>
+        <input type="number" id="duration_estimate" name="duration_estimate" required>
+        <br><br>
+        <label for="event_host_area_code">Host Phone Number:</label>
+        <input type="text" id="event_host_area_code" name="event_host_area_code" required>
+        <label for="event_host_phone_number"></label>
+        <input type="text" id="event_host_phone_number" name="event_host_phone_number" required>
+        <br><br>
+        <label for="jen_story">Jen's Story:</label>
+        <select type="text" id="jen_story" name="jen_story" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

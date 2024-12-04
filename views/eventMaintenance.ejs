@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Maintenance</title>
+    <link rel="stylesheet" href="eventMaintenance.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Function to toggle table visibility
+        function toggleTable(tableId) {
+            const table = document.getElementById(tableId);
+            table.style.display = table.style.display === 'none' ? 'table' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>Events Maintenance</h1>
+
+    <% const statuses = ['Pending', 'Approved', 'Declined', 'Completed']; %>
+    <% statuses.forEach((status, index) => { %>
+        <div>
+            <!-- Section Header -->
+            <h2>
+                <button onclick="toggleTable('<%= status.toLowerCase() %>-table')">
+                    <%= status %> Events
+                </button>
+            </h2>
+            
+            <!-- Table Wrapper for Scrollbar -->
+            <div class="table-wrapper">
+                <table id="<%= status.toLowerCase() %>-table" style="display: <%= index === 0 ? 'table' : 'none' %>;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Host Name</th>
+                            <th>Host Email</th>
+                            <th>Host Phone Number</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Participants Est.</th>
+                            <th>Duration Est.</th>
+                            <th>Jen's Story</th>
+                            <th>Participants</th>
+                            <th>Duration</th>
+                            <th>Pockets</th>
+                            <th>Collars</th>
+                            <th>Envelopes</th>
+                            <th>Vests</th>
+                            <th>Completed Products</th>
+                            <th>Satisfaction Rating</th>
+                            <th>Feedback</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categorizedEvents[status].forEach(event => { %>
+                            <tr>
+                                <td>
+                                    <form action="/editEvent/<%= event.event_id %>" method="get">
+                                        <button type="submit">Edit</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="/deleteEvent/<%= event.event_id %>" method="post">
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this event?');">Delete</button>
+                                    </form>
+                                </td>
+                                <td><%= event.event_host_first_name %> <%= event.event_host_last_name %></td>
+                                <td><%= event.event_host_email %></td>
+                                <td>(<%= event.event_host_area_code %>) <%= event.event_host_phone_number %></td>
+                                <td><%= new Date(event.event_date_time).toLocaleString() %></td>
+                                <td><%= event.event_address %>, <%= event.event_city %>, <%= event.event_state %>, <%= event.event_zip_code %></td>
+                                <td><%= event.event_type %></td>
+                                <td><%= event.participants_estimate %></td>
+                                <td><%= event.duration_estimate %> (hrs)</td>
+                                <td><%= event.jen_story %></td>
+                                <td><%= event.participants_actual %></td>
+                                <td><%= event.duration_actual %> (hrs)</td>
+                                <td><%= event.pockets_produced %></td>
+                                <td><%= event.collars_produced %></td>
+                                <td><%= event.envelopes_produced %></td>
+                                <td><%= event.vests_produced %></td>
+                                <td><%= event.completed_products %></td>
+                                <td><%= event.satisfaction_rating %></td>
+                                <td><%= event.feedback %></td>
+                                <td><%= event.comments %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+    <% }) %>
+    <br>
+    <form action="/addEvent" method="get">
+        <button type="submit">Add Event</button>
+    </form>
+</body>
+</html>
