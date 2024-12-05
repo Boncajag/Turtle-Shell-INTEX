@@ -118,6 +118,64 @@
             <option value="No" <%= myevent.jen_story === 'No' ? 'selected' : '' %>>No</option>
         </select>
         <br><br>
+        <label for="status">Status:</label>
+          <select id="status" name="status">
+              <option value="Pending" <%= myevent.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+              <option value="Approved" <%= myevent.status === 'Approved' ? 'selected' : '' %>>Approved</option>
+              <option value="Declined" <%= myevent.status === 'Declined' ? 'selected' : '' %>>Declined</option>
+              <option value="Completed" <%= myevent.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+          </select>
+          <br><br>
+
+        <label for="participants_actual">Participants Actual:</label>
+        <input type="number" id="participants_actual" name="participants_actual" value="<%= myevent.participants_actual %>">
+        <br><br>
+
+        <label for="duration_actual">Duration Actual (hrs):</label>
+        <input type="number" id="duration_actual" name="duration_actual" value="<%= myevent.duration_actual %>">
+        <br><br>
+
+        <label for="pockets_produced">Pockets Produced:</label>
+        <input type="number" id="pockets_produced" name="pockets_produced" value="<%= myevent.pockets_produced %>">
+        <br><br>
+
+        <label for="collars_produced">Collars Produced:</label>
+        <input type="number" id="collars_produced" name="collars_produced" value="<%= myevent.collars_produced %>">
+        <br><br>
+
+        <label for="envelopes_produced">Envelopes Produced:</label>
+        <input type="number" id="envelopes_produced" name="envelopes_produced" value="<%= myevent.envelopes_produced %>">
+        <br><br>
+
+        <label for="vests_produced">Vests Produced:</label>
+        <input type="number" id="vests_produced" name="vests_produced" value="<%= myevent.vests_produced %>">
+        <br><br>
+
+        <label for="completed_products">Completed Products:</label>
+        <input type="number" id="completed_products" name="completed_products" value="<%= myevent.completed_products %>">
+        <br><br>
+
+        <label for="satisfaction_rating">Satisfaction Rating:</label>
+        <input type="number" id="satisfaction_rating" name="satisfaction_rating" value="<%= myevent.satisfaction_rating %>" min="0" max="5">
+        <br><br>
+
+        <label for="feedback">Feedback:</label>
+        <select id="feedback" name="feedback" class="form-control" required>
+            <option value="Work Flow" <%= myevent.feedback === 'Work Flow' ? 'selected' : '' %>>Work Flow</option>
+            <option value="Participation" <%= myevent.feedback === 'Participation' ? 'selected' : '' %>>Participation</option>
+            <option value="Trainings" <%= myevent.feedback === 'Trainings' ? 'selected' : '' %>>Trainings</option>
+            <option value="Material Amounts" <%= myevent.feedback === 'Material Amounts' ? 'selected' : '' %>>Material Amounts</option>
+            <option value="Communication" <%= myevent.feedback === 'Communication' ? 'selected' : '' %>>Communication</option>
+            <option value="Resource Transportation" <%= myevent.feedback === 'Resource Transportation' ? 'selected' : '' %>>Resource Transportation</option>
+            <option value="Resource Amounts" <%= myevent.feedback === 'Resource Amounts' ? 'selected' : '' %>>Resource Amounts</option>
+        </select>
+        <br><br>
+        
+
+        <label for="comments">Comments:</label>
+        <input type="text" id="comments" name="comments" value="<%= myevent.comments %>">
+        <br><br>
+
         <button type="submit">Save Changes</button>
     </form>
 </body>
