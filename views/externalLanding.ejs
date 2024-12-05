@@ -26,7 +26,7 @@
     <div class="hero">
         <img src="img/externalbanner.jpg" alt="Turtle Shelter Project Banner">
     </div>
- <!-- Action Section -->
+<!-- Action Section -->
  <section class="action-section">
     <h2>Take Action</h2>
     <div class="action-cards">
@@ -88,47 +88,47 @@
 
     
 
-    <!-- JavaScript for Slideshow -->
-    <script>
-        let slideIndex = 1;
-        showSlides(slideIndex);
+<!-- JavaScript for Slideshow -->
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
 
-        // Function to change the slide
-        function changeSlide(n) {
-            showSlides(slideIndex += n);
+    // Function to change the slide
+    function changeSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Function to set the current slide
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    // Function to show slides
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("slide");
+        let dots = document.getElementsByClassName("dot");
+
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
 
-        // Function to set the current slide
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
         }
 
-        // Function to show slides
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("slide");
-            let dots = document.getElementsByClassName("dot");
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
 
-            if (n > slides.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = slides.length }
-
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-
-            slides[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " active";
-        }
-
-        // Auto-play slideshow
-        setInterval(() => {
-            changeSlide(1);
-        }, 5000); // Change slide every 5 seconds
-    </script>
+    // Auto-play slideshow
+    setInterval(() => {
+        changeSlide(1);
+    }, 5000); // Change slide every 5 seconds
+</script>
     <script>
         // Get the query parameters from the URL
         const urlParams = new URLSearchParams(window.location.search);
