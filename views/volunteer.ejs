@@ -4,7 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Sign-Up</title>
+    <link rel="stylesheet" href="external.css">
     <style>
+
+        header {
+            font-family: 'Libre Baskerville', serif;
+            background-color: #869986ce;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -61,10 +79,19 @@
 </head>
 <body>
     <!-- Header -->
-    <div style="background-color: #869986; padding: 15px; color: white; text-align: center;">
-        <h1 style="margin: 0;">Turtle Shelter Project</h1>
-        <p>Volunteer Sign-Up Form</p>
-    </div>
+    <header>
+        <h1>Turtle Shelter Project</h1>
+        <nav>
+            <a href="/">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">How You Can Help</button>
+                <div class="dropdown-content">
+                    <a href="https://turtleshelterproject.org/donate" target="_blank">Donate</a>
+                    <a href="/volunteerhome">Volunteer From Home</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <!-- Volunteer Sign-Up Form -->
     <div id="form-container" class="container">
