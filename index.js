@@ -61,32 +61,32 @@ app.get('/schedule', (req, res) => {
 
 // EXTERNAL LANDING - New Event Submission
 app.post('/requestEvent', (req, res) => {
-  knex('events')
-  .insert({
-      event_date_time: req.body.event_date_time,
-      event_host_first_name: req.body.event_host_first_name,
-      event_host_last_name: req.body.event_host_last_name,
-      event_host_email: req.body.event_host_email,
-      participants_estimate: req.body.participants_estimate,
-      event_type: req.body.event_type,
-      event_address: req.body.event_address,
-      event_city: req.body.event_city,
-      event_state: req.body.event_state,
-      event_zip_code: req.body.event_zip_code,
-      duration_estimate: req.body.duration_estimate,
-      event_host_area_code: req.body.event_host_area_code,
-      event_host_phone_number: req.body.event_host_phone_number,
-      jen_story: req.body.jen_story,
-      status: 'Pending'
-  })
-  .then(() => {
-      // Pass a success message as a query parameter
-      res.redirect('/?message=Thank you for requesting to host and event!');
-  })
-  .catch(error => {
-      console.error('Error inserting event:', error);
-      res.status(500).send('Internal Server Error');
-  })
+    knex('events')
+    .insert({
+        event_date_time: req.body.event_date_time,
+        event_host_first_name: req.body.event_host_first_name,
+        event_host_last_name: req.body.event_host_last_name,
+        event_host_email: req.body.event_host_email,
+        participants_estimate: req.body.participants_estimate,
+        event_type: req.body.event_type,
+        event_address: req.body.event_address,
+        event_city: req.body.event_city,
+        event_state: req.body.event_state,
+        event_zip_code: req.body.event_zip_code,
+        duration_estimate: req.body.duration_estimate,
+        event_host_area_code: req.body.event_host_area_code,
+        event_host_phone_number: req.body.event_host_phone_number,
+        jen_story: req.body.jen_story,
+        status: 'Pending'
+    })
+    .then(() => {
+        // Pass a success message as a query parameter
+        res.redirect('/?message=Thank you for requesting to host and event!');
+    })
+    .catch(error => {
+        console.error('Error inserting event:', error);
+        res.status(500).send('Internal Server Error');
+    })
 });
 
 // EXTERNAL LANDING - Volunteer Page/Sign Up
@@ -95,29 +95,29 @@ app.get('/volunteer', (req, res) => {
 });
 
 app.post('/volunteerSignup', (req, res) => {
-  knex('volunteers')
-  .insert({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      area_code: req.body.area_code,
-      phone_number: req.body.phone_number,
-      street: req.body.street,
-      city: req.body.city,
-      state: req.body.state,
-      zip_code: req.body.zip_code,
-      referall_source: req.body.referall_source,
-      sewing_level: req.body.sewing_level,
-      hours_per_month: req.body.hours_per_month
-  })
-  .then(() => {
-      // Pass a success message as a query parameter
-      res.redirect('/?message=Thank you for signing up to volunteer!');
-  })
-  .catch(error => {
-      console.error('Error inserting event:', error);
-      res.status(500).send('Internal Server Error');
-  })
+    knex('volunteers')
+    .insert({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        area_code: req.body.area_code,
+        phone_number: req.body.phone_number,
+        street: req.body.street,
+        city: req.body.city,
+        state: req.body.state,
+        zip_code: req.body.zip_code,
+        referall_source: req.body.referall_source,
+        sewing_level: req.body.sewing_level,
+        hours_per_month: req.body.hours_per_month
+    })
+    .then(() => {
+        // Pass a success message as a query parameter
+        res.redirect('/?message=Thank you for signing up to volunteer!');
+    })
+    .catch(error => {
+        console.error('Error inserting event:', error);
+        res.status(500).send('Internal Server Error');
+    })
 });
 
 // EXTERNAL LANDING - Jen's Story Page
