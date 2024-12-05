@@ -199,8 +199,10 @@
         }
 
         .slide img {
-            width: 100%;
-            border-radius: 10px;
+            width: 100%; /* Ensures the image stretches across the container width */
+            height: 400px; /* Set a fixed height */
+            object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+            border-radius: 10px; /* Keeps the rounded corners */
         }
 
         .prev, .next {
@@ -260,6 +262,7 @@
                     <a href="/volunteerhome">Volunteer Home</a>
                     <a href="/event">Schedule an Event</a>
                 </div>
+                <a href="/login">Login</a>
             </div>
         </nav>
     </header>
