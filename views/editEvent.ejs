@@ -5,13 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Event</title>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <link rel="stylesheet" href="styles.css">
 =======
 >>>>>>> f94a7e15475e6972177ef8788b7e2ea7c356bb6b
+=======
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+          color: #333;
+        }
+        h1 {
+          text-align: center;
+          padding: 20px;
+          background-color: #869986; /* Green color */
+          color: white;
+        }
+        a {
+          display: block;
+          text-align: center;
+          margin: 10px 0;
+          text-decoration: none;
+          color: #007BFF;
+          font-weight: bold;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        form {
+          max-width: 800px; /* Wider form */
+          margin: 0 auto;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+          font-size: 14px;
+          margin-bottom: 8px;
+          display: block;
+        }
+        input, select {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          width: 100%;
+          font-size: 16px;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+      </style>
+      
+>>>>>>> de0ec45b6bb87e4a2372032a153cf417889578c1
 </head>
 <body>
     <h1>Edit Event</h1>
-    
+    <a href="/eventMaintenance">Back to User Maintenance</a>
     <form action="/editEvent/<%= myevent.event_id %>" method="POST">
         <label for="event_host_first_name">Host First Name:</label>
         <input type="text" id="event_host_first_name" name="event_host_first_name" value="<%= myevent.event_host_first_name %>" required>
@@ -62,6 +125,64 @@
             <option value="No" <%= myevent.jen_story === 'No' ? 'selected' : '' %>>No</option>
         </select>
         <br><br>
+        <label for="status">Status:</label>
+          <select id="status" name="status">
+              <option value="Pending" <%= myevent.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+              <option value="Approved" <%= myevent.status === 'Approved' ? 'selected' : '' %>>Approved</option>
+              <option value="Declined" <%= myevent.status === 'Declined' ? 'selected' : '' %>>Declined</option>
+              <option value="Completed" <%= myevent.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+          </select>
+          <br><br>
+
+        <label for="participants_actual">Participants Actual:</label>
+        <input type="number" id="participants_actual" name="participants_actual" value="<%= myevent.participants_actual %>">
+        <br><br>
+
+        <label for="duration_actual">Duration Actual (hrs):</label>
+        <input type="number" id="duration_actual" name="duration_actual" value="<%= myevent.duration_actual %>">
+        <br><br>
+
+        <label for="pockets_produced">Pockets Produced:</label>
+        <input type="number" id="pockets_produced" name="pockets_produced" value="<%= myevent.pockets_produced %>">
+        <br><br>
+
+        <label for="collars_produced">Collars Produced:</label>
+        <input type="number" id="collars_produced" name="collars_produced" value="<%= myevent.collars_produced %>">
+        <br><br>
+
+        <label for="envelopes_produced">Envelopes Produced:</label>
+        <input type="number" id="envelopes_produced" name="envelopes_produced" value="<%= myevent.envelopes_produced %>">
+        <br><br>
+
+        <label for="vests_produced">Vests Produced:</label>
+        <input type="number" id="vests_produced" name="vests_produced" value="<%= myevent.vests_produced %>">
+        <br><br>
+
+        <label for="completed_products">Completed Products:</label>
+        <input type="number" id="completed_products" name="completed_products" value="<%= myevent.completed_products %>">
+        <br><br>
+
+        <label for="satisfaction_rating">Satisfaction Rating:</label>
+        <input type="number" id="satisfaction_rating" name="satisfaction_rating" value="<%= myevent.satisfaction_rating %>" min="0" max="5">
+        <br><br>
+
+        <label for="feedback">Feedback:</label>
+        <select id="feedback" name="feedback" class="form-control" required>
+            <option value="Work Flow" <%= myevent.feedback === 'Work Flow' ? 'selected' : '' %>>Work Flow</option>
+            <option value="Participation" <%= myevent.feedback === 'Participation' ? 'selected' : '' %>>Participation</option>
+            <option value="Trainings" <%= myevent.feedback === 'Trainings' ? 'selected' : '' %>>Trainings</option>
+            <option value="Material Amounts" <%= myevent.feedback === 'Material Amounts' ? 'selected' : '' %>>Material Amounts</option>
+            <option value="Communication" <%= myevent.feedback === 'Communication' ? 'selected' : '' %>>Communication</option>
+            <option value="Resource Transportation" <%= myevent.feedback === 'Resource Transportation' ? 'selected' : '' %>>Resource Transportation</option>
+            <option value="Resource Amounts" <%= myevent.feedback === 'Resource Amounts' ? 'selected' : '' %>>Resource Amounts</option>
+        </select>
+        <br><br>
+        
+
+        <label for="comments">Comments:</label>
+        <input type="text" id="comments" name="comments" value="<%= myevent.comments %>">
+        <br><br>
+
         <button type="submit">Save Changes</button>
     </form>
 </body>

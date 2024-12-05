@@ -5,26 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Your Event</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="schedule.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="external.css">
+    <style>
+        header {
+            font-family: 'Libre Baskerville', serif;
+            background-color: #869986ce;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; color: #333;">
     <!-- Header -->
-    <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
-        <h1 style="margin: 0;">Turtle Shelter Project</h1>
-        <p>Schedule Your Event</p>
-        <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
-            <a href="https://turtleshelterproject.org/donate" style="margin-right: 15px; text-decoration: none; color: #333;">Donate</a>
-            <a href="/story" style="margin-right: 15px; text-decoration: none; color: #333;">Jen's Story</a>
+    <header>
+        <h1>Turtle Shelter Project</h1>
+        <nav>
+            <a href="/">Home</a>
             <div class="dropdown">
-                <a href="#" class="dropbtn" style="margin-right: 15px; text-decoration: none; color: #333;">How You Can Help</a>
+                <button class="dropbtn">How You Can Help</button>
                 <div class="dropdown-content">
-                    <a href="/event" style="text-decoration: none;">Schedule an Event</a>
-                    <a href="/volunteerhome" style="text-decoration: none;">Volunteer From Home</a>
+                    <a href="https://turtleshelterproject.org/donate" target="_blank">Donate</a>
+                    <a href="/volunteerhome">Volunteer From Home</a>
                 </div>
             </div>
-            <a href="/login" style="margin-right: 15px; text-decoration: none; color: #333;">Login</a>
         </nav>
     </header>
 
@@ -41,7 +54,6 @@
                     <input type="datetime-local" id="event_date_time" name="event_date_time" class="form-control" required>
                     <small class="form-text text-muted">Choose the date and time of your event.</small>
                 </div>
-
                 <!-- Event Type -->
                 <div class="mb-3">
                     <label for="event_type" class="form-label">Event Type</label>
@@ -51,14 +63,19 @@
                         <option value="Non-sewing Event">Non-sewing Event</option>
                         <option value="Sewing Event">Both</option>
                     </select>
-                    <small class="form-text text-muted">Specify the type of event you're hosting.</small>
                 </div>
-
                 <!-- Estimated Participants -->
                 <div class="mb-3">
                     <label for="participants_estimate" class="form-label">Estimated Participants</label>
                     <input type="number" id="participants_estimate" name="participants_estimate" class="form-control" required>
                     <small class="form-text text-muted">Approximate number of attendees.</small>
+                </div>
+
+                <!-- Estimated Duration -->
+                <div class="mb-3">
+                    <label for="duration_estimate" class="form-label">Estimated Duration (hours)</label>
+                    <input type="number" id="duration_estimate" name="duration_estimate" class="form-control" required min="0">
+                    <small class="form-text text-muted">Approximate event duration in hours.</small>
                 </div>
 
                 <!-- Event Type -->
@@ -76,7 +93,6 @@
             <!-- Host Information -->
             <fieldset class="mb-4">
                 <legend class="fw-bold">Host Information</legend>
-                <!-- Host Name -->
                 <div class="mb-3 row">
                     <div class="col-md-6">
                         <label for="event_host_first_name" class="form-label">First Name</label>
@@ -87,8 +103,6 @@
                         <input type="text" id="event_host_last_name" name="event_host_last_name" class="form-control" required>
                     </div>
                 </div>
-
-                <!-- Email -->
                 <div class="mb-3">
                     <label for="event_host_email" class="form-label">Email Address</label>
                     <input type="email" id="event_host_email" name="event_host_email" class="form-control" placeholder="example@domain.com" required>
@@ -111,13 +125,10 @@
             <!-- Event Location -->
             <fieldset class="mb-4">
                 <legend class="fw-bold">Event Location</legend>
-                <!-- Address -->
                 <div class="mb-3">
                     <label for="event_address" class="form-label">Address</label>
                     <input type="text" id="event_address" name="event_address" class="form-control" placeholder="1234 Main St" required>
                 </div>
-
-                <!-- City, State, ZIP -->
                 <div class="mb-3 row">
                     <div class="col-md-6">
                         <label for="event_city" class="form-label">City</label>
@@ -176,7 +187,6 @@
                             <option value="WV">West Virginia</option>
                             <option value="WI">Wisconsin</option>
                             <option value="WY">Wyoming</option>
-                            <!-- Add all other states here -->
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -192,6 +202,21 @@
             </div>
         </form>
     </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="text-center" style="display: none; margin-top: 20px;">
+        <h3>Your event has been successfully scheduled!</h3>
+        <a href="/" class="btn btn-primary mt-3">Return to Main Page</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('event-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
+            document.getElementById('event-form').style.display = 'none'; // Hide the form
+            document.getElementById('success-message').style.display = 'block'; // Show the success message
+        });
+    </script>
 
     <!-- Footer -->
     <footer style="background-color: #333; color: white; text-align: center; padding: 10px; margin-top: 20px;">
