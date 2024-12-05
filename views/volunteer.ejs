@@ -4,8 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Sign-Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .btn-success, .btn-primary {
+            background-color: #869986;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success:hover, .btn-primary:hover {
+            background-color: #6f7c6f;
+        }
+
+        #success-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; color: #333;">
+<body>
     <!-- Header -->
     <div style="background-color: #869986; padding: 15px; color: white; text-align: center;">
         <h1 style="margin: 0;">Turtle Shelter Project</h1>
@@ -13,19 +67,19 @@
     </div>
 
     <!-- Volunteer Sign-Up Form -->
-    <div style="max-width: 800px; margin: 20px auto; padding: 20px; background-color: white; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+    <div id="form-container" class="container">
         <h2 style="color: #333; text-align: center;">Join Us as a Volunteer</h2>
-        <form action="/volunteer-signup" method="POST">
+        <form id="event-form" action="/volunteer-signup" method="POST">
             <!-- First Name -->
             <div style="margin-bottom: 15px;">
-                <label for="first-name" style="display: block; margin-bottom: 5px;">First Name</label>
-                <input type="text" id="first-name" name="first_name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="first_name" style="display: block; margin-bottom: 5px;">First Name</label>
+                <input type="text" id="first_name" name="first_name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
 
             <!-- Last Name -->
             <div style="margin-bottom: 15px;">
-                <label for="last-name" style="display: block; margin-bottom: 5px;">Last Name</label>
-                <input type="text" id="last-name" name="last_name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="last_name" style="display: block; margin-bottom: 5px;">Last Name</label>
+                <input type="text" id="last_name" name="last_name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
 
             <!-- Email -->
@@ -36,14 +90,14 @@
 
             <!-- Area Code -->
             <div style="margin-bottom: 15px;">
-                <label for="area-code" style="display: block; margin-bottom: 5px;">Area Code</label>
-                <input type="text" id="area-code" name="area_code" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="area_code" style="display: block; margin-bottom: 5px;">Area Code</label>
+                <input type="text" id="area_code" name="area_code" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
 
             <!-- Phone Number -->
             <div style="margin-bottom: 15px;">
-                <label for="phone-number" style="display: block; margin-bottom: 5px;">Phone Number</label>
-                <input type="text" id="phone-number" name="phone_number" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="phone_number" style="display: block; margin-bottom: 5px;">Phone Number</label>
+                <input type="text" id="phone_number" name="phone_number" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
 
             <!-- Street -->
@@ -62,7 +116,6 @@
             <div style="margin-bottom: 15px;">
                 <label for="state" style="display: block; margin-bottom: 5px;">State</label>
                 <select id="state" name="state" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                    <option value="" disabled selected>Select a State</option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>
                     <option value="AZ">Arizona</option>
@@ -116,23 +169,17 @@
                 </select>
             </div>
 
-
             <!-- ZIP Code -->
             <div style="margin-bottom: 15px;">
-                <label for="zip-code" style="display: block; margin-bottom: 5px;">ZIP Code</label>
-                <input type="text" id="zip-code" name="zip_code" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="zip_code" style="display: block; margin-bottom: 5px;">ZIP Code</label>
+                <input type="text" id="zip_code" name="zip_code" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
 
-            <!-- How They Heard -->
-            <div style="margin-bottom: 15px;">
-                <label for="how-they-heard" style="display: block; margin-bottom: 5px;">How Did You Hear About Us?</label>
-                <input type="text" id="how-they-heard" name="how_they_heard" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-            </div>
-
+    
             <!-- Sewing Level -->
             <div style="margin-bottom: 15px;">
-                <label for="sewing-level" style="display: block; margin-bottom: 5px;">Sewing Level</label>
-                <select id="sewing-level" name="sewing_level" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                <label for="sewing_level" style="display: block; margin-bottom: 5px;">Sewing Level</label>
+                <select id="sewing_level" name="sewing_level" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
                     <option value="" disabled selected>Select Your Sewing Level</option>
                     <option value="Beginner">Beginner</option>
                     <option value="Intermediate">Intermediate</option>
@@ -145,18 +192,47 @@
                 <label for="hours-month" style="display: block; margin-bottom: 5px;">How Many Hours Can You Volunteer Per Month?</label>
                 <input type="number" id="hours-month" name="hours_month" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
             </div>
+              <!-- How Did You Hear -->
+              <div style="margin-bottom: 15px;">
+                <label for="referall_source">How Did You Hear About Us?</label>
+    <select id="referall_source" name="referall_source">
+      <option value="Facebook">Facebook</option>
+      <option value="Friend">Friend</option>
+      <option value="Website">Website</option>
+      <option value="Workshop">Workshop</option>
+      <option value="Social Media">Social Media</option>
+      <option value="Flyer">Flyer</option>
+      <option value="Community Board">Community Board</option>
+      <option value="Volunteer Fair">Volunteer Fair</option>
+      <option value="Newsletter">Newsletter</option>
+      <option value="Word of Mouth">Word of Mouth</option>
+    </select><br>
+    </div>
 
             <!-- Submit Button -->
-            <div style="text-align: center;">
-                <button type="submit" style="background-color: #869986; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                    Submit
-                </button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
     </div>
 
+    <!-- Success Message -->
+    <div id="success-message">
+        <h3>Thank you for signing up to volunteer!</h3>
+        <a href="/" class="btn-primary">Return to Main Page</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('event-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        });
+    </script>
+
     <!-- Footer -->
-    <footer style="background-color: #333; color: white; text-align: center; padding: 10px; margin-top: 20px;">
+    <footer>
         &copy; 2024 Turtle Shelter Project
     </footer>
 </body>

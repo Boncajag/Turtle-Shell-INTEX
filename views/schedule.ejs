@@ -7,23 +7,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="schedule.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; color: #333;">
     <!-- Header -->
-    <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
+    <header style="background-color: #869986ce; color: white; padding: 15px; text-align: center;">
         <h1 style="margin: 0;">Turtle Shelter Project</h1>
         <p>Schedule Your Event</p>
         <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
             <a href="https://turtleshelterproject.org/donate" style="margin-right: 15px; text-decoration: none; color: #333;">Donate</a>
             <a href="/story" style="margin-right: 15px; text-decoration: none; color: #333;">Jen's Story</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn" style="margin-right: 15px; text-decoration: none; color: #333;">How You Can Help</a>
-                <div class="dropdown-content">
-                    <a href="/event" style="text-decoration: none;">Schedule an Event</a>
-                    <a href="/volunteerhome" style="text-decoration: none;">Volunteer From Home</a>
-                </div>
-            </div>
             <a href="/login" style="margin-right: 15px; text-decoration: none; color: #333;">Login</a>
         </nav>
     </header>
@@ -31,84 +23,92 @@
     <!-- Main Container -->
     <div class="container mt-4">
         <h2 class="mb-4 text-center">Schedule Your Event</h2>
-        <form action="/add-event" method="POST" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <form action="/requestEvent" method="POST" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
             <!-- Event Details -->
             <fieldset class="mb-4">
                 <legend class="fw-bold">Event Details</legend>
                 <!-- Event Date and Time -->
                 <div class="mb-3">
-                    <label for="event-date-time" class="form-label">Event Date and Time</label>
-                    <input type="datetime-local" id="event-date-time" name="event_date_time" class="form-control" required>
+                    <label for="event_date_time" class="form-label">Event Date and Time</label>
+                    <input type="datetime-local" id="event_date_time" name="event_date_time" class="form-control" required>
                     <small class="form-text text-muted">Choose the date and time of your event.</small>
+                </div>
+                <!-- Event Type -->
+                <div class="mb-3">
+                    <label for="event_type" class="form-label">Event Type</label>
+                    <select id="event_type" name="event_type" class="form-select" required>
+                        <option value="" disabled selected>Select Event Type</option>
+                        <option value="Sewing Workshop">Sewing Event</option>
+                        <option value="Non-sewing Event">Non-sewing Event</option>
+                        <option value="Sewing Event">Both</option>
+                    </select>
+                </div>
+                <!-- Estimated Participants -->
+                <div class="mb-3">
+                    <label for="participants_estimate" class="form-label">Estimated Participants</label>
+                    <input type="number" id="participants_estimate" name="participants_estimate" class="form-control" required>
+                    <small class="form-text text-muted">Approximate number of attendees.</small>
                 </div>
 
                 <!-- Event Type -->
                 <div class="mb-3">
-                    <label for="event-type" class="form-label">Event Type</label>
-                    <select id="event-type" name="event_type" class="form-select" required>
-                        <option value="" disabled selected>Select Event Type</option>
-                        <option value="Sewing Workshop">Sewing Workshop</option>
-                        <option value="Non-sewing Event">Non-sewing Event</option>
-                        <option value="Sewing Event">Sewing Event</option>
+                    <label for="jen_story" class="form-label">Jen's Story</label>
+                    <select id="jen_story" name="jen_story" class="form-select" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
                     </select>
-                    <small class="form-text text-muted">Specify the type of event you're hosting.</small>
-                </div>
-
-                <!-- Estimated Participants -->
-                <div class="mb-3">
-                    <label for="participants-estimate" class="form-label">Estimated Participants</label>
-                    <input type="number" id="participants-estimate" name="participants_estimate" class="form-control" required>
-                    <small class="form-text text-muted">Approximate number of attendees.</small>
+                    <small class="form-text text-muted">Would you like Jen to share her story at the event?</small>
                 </div>
             </fieldset>
 
             <!-- Host Information -->
             <fieldset class="mb-4">
                 <legend class="fw-bold">Host Information</legend>
-                <!-- Host Name -->
                 <div class="mb-3 row">
                     <div class="col-md-6">
-                        <label for="host-first-name" class="form-label">First Name</label>
-                        <input type="text" id="host-first-name" name="host_first_name" class="form-control" required>
+                        <label for="event_host_first_name" class="form-label">First Name</label>
+                        <input type="text" id="event_host_first_name" name="event_host_first_name" class="form-control" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="host-last-name" class="form-label">Last Name</label>
-                        <input type="text" id="host-last-name" name="host_last_name" class="form-control" required>
+                        <label for="event_host_last_name" class="form-label">Last Name</label>
+                        <input type="text" id="event_host_last_name" name="event_host_last_name" class="form-control" required>
                     </div>
                 </div>
-
-                <!-- Email -->
                 <div class="mb-3">
-                    <label for="host-email" class="form-label">Email Address</label>
-                    <input type="email" id="host-email" name="host_email" class="form-control" placeholder="example@domain.com" required>
+                    <label for="event_host_email" class="form-label">Email Address</label>
+                    <input type="email" id="event_host_email" name="event_host_email" class="form-control" placeholder="example@domain.com" required>
                     <small class="form-text text-muted">We'll use this to contact you.</small>
+                </div>
+
+                <!-- Area Code -->
+                <div class="mb-3">
+                    <label for="event_host_area_code" class="form-label">Area Code</label>
+                    <input type="text" id="event_host_area_code" name="event_host_area_code" class="form-control" placeholder="(123)" required>
                 </div>
 
                 <!-- Phone Number -->
                 <div class="mb-3">
-                    <label for="host-phone-number" class="form-label">Phone Number</label>
-                    <input type="tel" id="host-phone-number" name="host_phone_number" class="form-control" placeholder="(123) 456-7890" required>
+                    <label for="event_host_phone_number" class="form-label">Phone Number</label>
+                    <input type="text" id="event_host_phone_number" name="event_host_phone_number" class="form-control" placeholder="456-7890" required>
                 </div>
             </fieldset>
 
             <!-- Event Location -->
             <fieldset class="mb-4">
                 <legend class="fw-bold">Event Location</legend>
-                <!-- Address -->
                 <div class="mb-3">
-                    <label for="event-address" class="form-label">Address</label>
-                    <input type="text" id="event-address" name="event_address" class="form-control" placeholder="1234 Main St" required>
+                    <label for="event_address" class="form-label">Address</label>
+                    <input type="text" id="event_address" name="event_address" class="form-control" placeholder="1234 Main St" required>
                 </div>
-
-                <!-- City, State, ZIP -->
                 <div class="mb-3 row">
                     <div class="col-md-6">
-                        <label for="event-city" class="form-label">City</label>
-                        <input type="text" id="event-city" name="event_city" class="form-control" required>
+                        <label for="event_city" class="form-label">City</label>
+                        <input type="text" id="event_city" name="event_city" class="form-control" required>
                     </div>
                     <div class="col-md-3">
-                        <label for="event-state" class="form-label">State</label>
-                        <select id="event-state" name="event_state" class="form-select" required>
+                        <label for="event_state" class="form-label">State</label>
+                        <select id="event_state" name="event_state" class="form-select" required>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -159,12 +159,11 @@
                             <option value="WV">West Virginia</option>
                             <option value="WI">Wisconsin</option>
                             <option value="WY">Wyoming</option>
-                            <!-- Add all other states here -->
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label for="zip-code" class="form-label">ZIP Code</label>
-                        <input type="text" id="zip-code" name="zip_code" class="form-control" required>
+                        <label for="event_zip_code" class="form-label">ZIP Code</label>
+                        <input type="text" id="event_zip_code" name="event_zip_code" class="form-control" required>
                     </div>
                 </div>
             </fieldset>
@@ -175,6 +174,21 @@
             </div>
         </form>
     </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="text-center" style="display: none; margin-top: 20px;">
+        <h3>Your event has been successfully scheduled!</h3>
+        <a href="/" class="btn btn-primary mt-3">Return to Main Page</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('event-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
+            document.getElementById('event-form').style.display = 'none'; // Hide the form
+            document.getElementById('success-message').style.display = 'block'; // Show the success message
+        });
+    </script>
 
     <!-- Footer -->
     <footer style="background-color: #333; color: white; text-align: center; padding: 10px; margin-top: 20px;">
