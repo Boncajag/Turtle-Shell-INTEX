@@ -389,45 +389,92 @@ app.post('/addUser', (req, res) => {
       });
   });
 
-  app.get('/addEvent', (req, res) => {
-    res.render('addEvent');
-  });
 
-  app.post('/addEvent', (req, res) => {
+
+  // ADD EVENT - GET - adding rows
+  app.get('/addEvent', (req, res) => {
+    // Fetch users types to populate the dropdown
     knex('events')
-        .insert({
-            event_date_time: req.body.event_date_time,
-            event_host_first_name: req.body.event_host_first_name,
-            event_host_last_name: req.body.event_host_last_name,
-            event_host_email: req.body.event_host_email,
-            participants_estimate: req.body.participants_estimate,
-            event_type: req.body.event_type,
-            event_address: req.body.event_address,
-            event_city: req.body.event_city,
-            event_state: req.body.event_state,
-            event_zip_code: req.body.event_zip_code,
-            duration_estimate: req.body.duration_estimate,
-            event_host_area_code: req.body.event_host_area_code,
-            event_host_phone_number: req.body.event_host_phone_number,
-            jen_story: req.body.jen_story,
-            status: 'Pending'
-            // participant_actual:
-            // duration_actual:
-            // pockets_produced:
-            // collars_produced:
-            // envelopes_produced:
-            // vests_produced:
-            // completed_products:
-            // satisfaction_rating:
-            // feedback:
-            // comments:
-        }).then(() => res.redirect('/eventMaintenance'))
+        .select('event_id')
+        .then(myevent => {
+            // Render the add form with the users types data
+            res.render('addEvent', { myevent });
+        })
         .catch(error => {
-            console.error('Error inserting event:', error);
+            console.error('Error fetching Event: ', error);
             res.status(500).send('Internal Server Error');
         });
-  });
+});
 
+// ADD EVENT - POST - Adding rows
+app.post('/addEvent', (req, res) => {
+  // Extract form values from req.body
+  const event_date_time = req.body.event_date_time || '';
+  const event_host_first_name = req.body.event_host_first_name || '';
+  const event_host_last_name = req.body.event_host_last_name || '';
+  const event_host_email = req.body.event_host_email || '';
+  const participants_estimate = parseInt(req.body.participants_estimate, 10) || 0;
+  const event_type = req.body.event_type || '';
+  const event_address = req.body.event_address || '';
+  const event_city = req.body.event_city || '';
+  const event_state = req.body.event_state || '';
+  const event_zip_code = req.body.event_zip_code || '';
+  const duration_estimate = parseInt(req.body.duration_estimate, 10) || 0;
+  const event_host_area_code = req.body.event_host_area_code || '';
+  const event_host_phone_number = req.body.event_host_phone_number || '';
+  const jen_story = req.body.jen_story || '';
+  const status = req.body.status || 'Pending'; // Default to 'Pending' if not provided
+  const participants_actual = parseInt(req.body.participants_actual, 10) || 0;
+  const duration_actual = parseInt(req.body.duration_actual, 10) || 0;
+  const pockets_produced = parseInt(req.body.pockets_produced, 10) || 0;
+  const collars_produced = parseInt(req.body.collars_produced, 10) || 0;
+  const envelopes_produced = parseInt(req.body.envelopes_produced, 10) || 0;
+  const vests_produced = parseInt(req.body.vests_produced, 10) || 0;
+  const completed_products = parseInt(req.body.completed_products, 10) || 0;
+  const satisfaction_rating = parseInt(req.body.satisfaction_rating, 10) || 0;
+  const feedback = req.body.feedback || '';
+  const comments = req.body.comments || '';
+
+  // Insert the new event into the database
+  knex('events')
+    .insert({
+      event_date_time: event_date_time,
+      event_host_first_name: event_host_first_name,
+      event_host_last_name: event_host_last_name,
+      event_host_email: event_host_email,
+      participants_estimate: participants_estimate,
+      event_type: event_type,
+      event_address: event_address,
+      event_city: event_city,
+      event_state: event_state,
+      event_zip_code: event_zip_code,
+      duration_estimate: duration_estimate,
+      event_host_area_code: event_host_area_code,
+      event_host_phone_number: event_host_phone_number,
+      jen_story: jen_story,
+      status: status,
+      participants_actual: participants_actual,
+      duration_actual: duration_actual,
+      pockets_produced: pockets_produced,
+      collars_produced: collars_produced,
+      envelopes_produced: envelopes_produced,
+      vests_produced: vests_produced,
+      completed_products: completed_products,
+      satisfaction_rating: satisfaction_rating,
+      feedback: feedback,
+      comments: comments
+    })
+    .then(() => {
+      res.redirect('/eventMaintenance'); // Redirect to the maintenance page after adding
+    })
+    .catch(error => {
+      console.error('Error adding event:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
+// DELETE EVENT - POST - Deleting rows
   app.post('/deleteEvent/:id', (req, res) => {
     knex('events')
         .where('event_id', req.params.id)
@@ -436,6 +483,8 @@ app.post('/addUser', (req, res) => {
         .catch(err => res.status(500).json({ err }));
   })
 
+
+  // EDIT EVENT - GET - Updating rows
   app.get('/editEvent/:id' ,(req, res) => {
     knex('events')
         .select('*')
@@ -453,32 +502,74 @@ app.post('/addUser', (req, res) => {
         });
   });
 
-  app.post('/editEvent/:id', (req, res) => {
-    console.log(req.body);
-    knex('events')
-        .where('event_id', parseInt(req.params.id))
-        .update({
-            event_date_time: req.body.event_date_time || null,  // Set default if undefined
-            event_host_first_name: req.body.event_host_first_name || '',
-            event_host_last_name: req.body.event_host_last_name || '',
-            event_host_email: req.body.event_host_email || '',
-            event_host_area_code: req.body.event_host_area_code || '', 
-            event_host_phone_number: req.body.event_host_phone_number || '',
-            event_type: req.body.event_type || '',
-            event_address: req.body.event_address || '',
-            event_city: req.body.event_city || '',
-            event_state: req.body.event_state || '',
-            event_zip_code: req.body.event_zip_code || '',
-            duration_estimate: req.body.duration_estimate || 0,
-            participants_estimate: req.body.participants_estimate || 0,
-            jen_story: req.body.jen_story || ''
-        })
-        .then(() => res.redirect('/eventMaintenance'))
-        .catch(err => {
-            console.error('Error updating event:', err);
-            res.status(500).send('Internal Server Error');
-        });
+// EDIT EVENT - POST - Updating rows
+app.post('/editEvent/:id', (req, res) => {
+  console.log(req.body);
+
+  // Extract form values from req.body
+  const event_date_time = req.body.event_date_time || null;
+  const event_host_first_name = req.body.event_host_first_name || '';
+  const event_host_last_name = req.body.event_host_last_name || '';
+  const event_host_email = req.body.event_host_email || '';
+  const participants_estimate = parseInt(req.body.participants_estimate, 10) || 0;
+  const event_type = req.body.event_type || '';
+  const event_address = req.body.event_address || '';
+  const event_city = req.body.event_city || '';
+  const event_state = req.body.event_state || '';
+  const event_zip_code = req.body.event_zip_code || '';
+  const duration_estimate = parseInt(req.body.duration_estimate, 10) || 0;
+  const event_host_area_code = req.body.event_host_area_code || '';
+  const event_host_phone_number = req.body.event_host_phone_number || '';
+  const jen_story = req.body.jen_story || '';
+  const status = req.body.status || 'Pending'; // Default to 'Pending'
+  const participants_actual = parseInt(req.body.participants_actual, 10) || 0;
+  const duration_actual = parseInt(req.body.duration_actual, 10) || 0;
+  const pockets_produced = parseInt(req.body.pockets_produced, 10) || 0;
+  const collars_produced = parseInt(req.body.collars_produced, 10) || 0;
+  const envelopes_produced = parseInt(req.body.envelopes_produced, 10) || 0;
+  const vests_produced = parseInt(req.body.vests_produced, 10) || 0;
+  const completed_products = parseInt(req.body.completed_products, 10) || 0;
+  const satisfaction_rating = parseInt(req.body.satisfaction_rating, 10) || 0;
+  const feedback = req.body.feedback || '';
+  const comments = req.body.comments || '';
+
+  // Update the event in the database
+  knex('events')
+      .where('event_id', parseInt(req.params.id))
+      .update({
+          event_date_time: event_date_time,
+          event_host_first_name: event_host_first_name,
+          event_host_last_name: event_host_last_name,
+          event_host_email: event_host_email,
+          participants_estimate: participants_estimate,
+          event_type: event_type,
+          event_address: event_address,
+          event_city: event_city,
+          event_state: event_state,
+          event_zip_code: event_zip_code,
+          duration_estimate: duration_estimate,
+          event_host_area_code: event_host_area_code,
+          event_host_phone_number: event_host_phone_number,
+          jen_story: jen_story,
+          status: status,
+          participants_actual: participants_actual,
+          duration_actual: duration_actual,
+          pockets_produced: pockets_produced,
+          collars_produced: collars_produced,
+          envelopes_produced: envelopes_produced,
+          vests_produced: vests_produced,
+          completed_products: completed_products,
+          satisfaction_rating: satisfaction_rating,
+          feedback: feedback,
+          comments: comments
+      })
+      .then(() => res.redirect('/eventMaintenance'))  // Redirect to the maintenance page after updating
+      .catch(err => {
+          console.error('Error updating event:', err);
+          res.status(500).send('Internal Server Error');
+      });
 });
+
 
 // VOLUNTEER MAINTENANCE - GET
 app.get('/volunteerMaintenance', (req, res) => {
