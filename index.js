@@ -21,7 +21,7 @@ const knex = require('knex') ({
     connection : {
         host : process.env.RDS_HOSTNAME || 'localhost',
         user : process.env.RDS_USERNAME || 'postgres',
-        password: process.env.RDS_PASSWORD || 'byhisgrace', // Make sure to change password and database name
+        password: process.env.RDS_PASSWORD || 'PGIlike2wrestle!', // Make sure to change password and database name
         database : process.env.RDS_DB_NAME || 'Turtle-Shell-INTEX',
         port : process.env.RDS_PORT || 5432,
         ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -60,14 +60,33 @@ app.get('/schedule', (req, res) => {
 });
 
 // EXTERNAL LANDING - New Event Submission
-app.post('/add-event', (req, res) => {
-  const { name, date, location, description } = req.body;
-
-  // Add the new event to the mock database
-  events.push({ name, date, location, description });
-
-  // Redirect back to the schedule page
-  res.redirect('/schedule');
+app.post('/requestEvent', (req, res) => {
+    knex('events')
+    .insert({
+        event_date_time: req.body.event_date_time,
+        event_host_first_name: req.body.event_host_first_name,
+        event_host_last_name: req.body.event_host_last_name,
+        event_host_email: req.body.event_host_email,
+        participants_estimate: req.body.participants_estimate,
+        event_type: req.body.event_type,
+        event_address: req.body.event_address,
+        event_city: req.body.event_city,
+        event_state: req.body.event_state,
+        event_zip_code: req.body.event_zip_code,
+        duration_estimate: req.body.duration_estimate,
+        event_host_area_code: req.body.event_host_area_code,
+        event_host_phone_number: req.body.event_host_phone_number,
+        jen_story: req.body.jen_story,
+        status: 'Pending'
+    })
+    .then(() => {
+        // Pass a success message as a query parameter
+        res.redirect('/?message=Thank you for requesting to host and event!');
+    })
+    .catch(error => {
+        console.error('Error inserting event:', error);
+        res.status(500).send('Internal Server Error');
+    })
 });
 
 // EXTERNAL LANDING - Volunteer Page/Sign Up
@@ -75,27 +94,30 @@ app.get('/volunteer', (req, res) => {
   res.render('volunteer');
 });
 
-app.post('/volunteer-signup', (req, res) => {
-  const {
-      first_name,
-      last_name,
-      email,
-      area_code,
-      phone_number,
-      street,
-      city,
-      state,
-      zip_code,
-      how_they_heard,
-      sewing_level,
-      hours_month
-  } = req.body;
-
-  console.log(`New Volunteer: ${first_name} ${last_name}`);
-  console.log(req.body); // Log the form data for debugging
-
-  // Send a temporary response
-  res.send('Thank you for signing up to volunteer!');
+app.post('/volunteerSignup', (req, res) => {
+    knex('volunteers')
+    .insert({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        area_code: req.body.area_code,
+        phone_number: req.body.phone_number,
+        street: req.body.street,
+        city: req.body.city,
+        state: req.body.state,
+        zip_code: req.body.zip_code,
+        referall_source: req.body.referall_source,
+        sewing_level: req.body.sewing_level,
+        hours_per_month: req.body.hours_per_month
+    })
+    .then(() => {
+        // Pass a success message as a query parameter
+        res.redirect('/?message=Thank you for signing up to volunteer!');
+    })
+    .catch(error => {
+        console.error('Error inserting event:', error);
+        res.status(500).send('Internal Server Error');
+    })
 });
 
 // EXTERNAL LANDING - Jen's Story Page
