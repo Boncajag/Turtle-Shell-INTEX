@@ -4,10 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Event</title>
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+          color: #333;
+        }
+        h1 {
+          text-align: center;
+          padding: 20px;
+          background-color: #869986; /* Green color */
+          color: white;
+        }
+        a {
+          display: block;
+          text-align: center;
+          margin: 10px 0;
+          text-decoration: none;
+          color: #007BFF;
+          font-weight: bold;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        form {
+          max-width: 800px; /* Wider form */
+          margin: 0 auto;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+          font-size: 14px;
+          margin-bottom: 8px;
+          display: block;
+        }
+        input, select {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          width: 100%;
+          font-size: 16px;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+      </style>
+      
 </head>
 <body>
     <h1>Edit Event</h1>
-    
+    <a href="/eventMaintenance">Back to User Maintenance</a>
     <form action="/editEvent/<%= myevent.event_id %>" method="POST">
         <label for="event_host_first_name">Host First Name:</label>
         <input type="text" id="event_host_first_name" name="event_host_first_name" value="<%= myevent.event_host_first_name %>" required>
