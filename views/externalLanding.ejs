@@ -4,251 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turtle Shelter Project</title>
-    <link rel="stylesheet" href="landing.css">
-    <link rel="stylesheet" href="schedule.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        header {
-            background-color: #869986;
-            color: white;
-            padding: 10px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 1.5em;
-            text-align: left;
-            padding-left: 20px;
-        }
-
-        header nav {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-right: 20px;
-        }
-
-        header nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: white;
-            font-size: 1em;
-        }
-
-        header nav a:hover {
-            text-decoration: underline;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: #333;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .hero {
-            background-color: #d1d1d1;
-            padding: 50px 20px;
-            text-align: center;
-            border: 2px solid #d2d2d2;
-        }
-
-        .hero h1 {
-            font-size: 2em;
-            margin: 0 0 10px;
-            color: #333;
-        }
-
-        .hero p {
-            font-size: 1em;
-            margin: 10px 0;
-        }
-
-        .info-section {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 40px 20px;
-            background-color: #f8f8f8;
-        }
-
-        .info-text {
-            max-width: 40%;
-        }
-
-        .info-text h2 {
-            font-size: 1.5em;
-            color: #333;
-        }
-
-        .info-text p {
-            font-size: 1em;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .info-highlight {
-            background-color: #fff2cf;
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 4px solid #e7e5d6;
-        }
-
-        .action-section {
-            padding: 60px 20px;
-            background-color: #fff2cf; /* Beige color */
-            text-align: center;
-        }
-
-        .action-section h2 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .action-cards {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-        }
-
-        .card {
-            background-color: white;
-            width: 250px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
-        }
-
-        .card:hover {
-            transform: translateY(-10px); /* Move card up slightly */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
-        }
-
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .card p {
-            margin-top: 10px;
-            color: #666;
-        }
-
-        .card a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #869986;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .card a:hover {
-            background-color: #697c69;
-        }
-
-        footer {
-            background-color: #333;
-            color: rgb(255, 255, 255);
-            padding: 10px 0;
-            text-align: center;
-        }
-
-        .slideshow-container {
-            position: relative;
-            max-width: 700px; /* Adjusted for size */
-            margin: auto;
-        }
-
-        .slide {
-            display: none;
-        }
-
-        .slide img {
-            width: 100%; /* Ensures the image stretches across the container width */
-            height: 400px; /* Set a fixed height */
-            object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
-            border-radius: 10px; /* Keeps the rounded corners */
-        }
-
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover, .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .dots-container {
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .dot {
-            cursor: pointer;
-            height: 10px;
-            width: 10px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active, .dot:hover {
-            background-color: #717171;
-        }
-    </style>
+    <link rel="stylesheet" href="external.css">
+    
 </head>
 <body>
     <header>
@@ -262,56 +19,15 @@
                     <a href="/volunteerhome">Volunteer Home</a>
                     <a href="/event">Schedule an Event</a>
                 </div>
-                <a href="/login">Login</a>
+                <a href="login">Login</a>
             </div>
         </nav>
     </header>
-
     <div class="hero">
-        <h1>What is a Turtle Shelter Vest?</h1>
-        <p>A high-tech but simple solution to help save lives - a portable "shelter" you can carry with you, just like a turtle... and YOU can help!</p>
+        <img src="img/externalbanner.jpg" alt="Turtle Shelter Project Banner">
     </div>
-
-    <section class="info-section">
-        <div class="info-text">
-            <h2>About the Turtle Shelter Vest</h2>
-            <p>One winter, when Jen was homeless, seven of her friends froze to death. Jen is no longer homeless and has figured out a solution: high-tech foam vests that are inexpensive, keep a person warm to 10 degrees below zero
-            <div class="info-highlight">
-                <p>You can request vests for your community - and you can make vests with your friends, business colleagues, church members, or club. Together, we can save lives!</p>
-            </div>
-        </div>
-        <div class="slideshow-container">
-            <div class="slide fade">
-                <img src="img/slide1.jpg" alt="Slide 1">
-                <div class="caption"></div>
-            </div>
-
-            <div class="slide fade">
-                <img src="img/slide2.jpg" alt="Slide 2">
-                <div class="caption"></div>
-            </div>
-
-            <div class="slide fade">
-                <img src="img/slide4.jpg" alt="Slide 3">
-                <div class="caption"></div>
-            </div>
-        
-            <!-- Navigation Arrows -->
-            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-            <a class="next" onclick="changeSlide(1)">&#10095;</a>
-        </div>
-        <br>
-        
-        <!-- Dots -->
-        <div class="dots-container">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
-        
-    </section>
 <!-- Action Section -->
-<section class="action-section"></section>
+ <section class="action-section">
     <h2>Take Action</h2>
     <div class="action-cards">
         <!-- Donate Card -->
@@ -336,6 +52,42 @@
         </div>
     </div>
 </section>
+
+
+
+<section class="info-section">
+    <div class="info-text">
+        <h2>What is a Turtle Shelter Vest?</h2>
+        <p>
+            A high-tech but simple solution to help save lives – a portable "shelter" you can carry with you, just like a turtle... and YOU can help!
+        </p>
+        <div class="info-highlight">
+            <p>
+                One winter, when Jen was homeless, seven of her friends froze to death. Jen is no longer homeless and has figured out a solution:
+                high-tech foam vests that are inexpensive, keep a person warm to 10 degrees below zero, help save lives, and alleviate suffering.
+            </p>
+        </div>
+        <p>
+            YOU can request vests for your community – and you can make vests and have your friends, business colleagues, church members, or club make vests, too!
+        </p>
+    </div>
+    <div class="slideshow-container">
+        <div class="slide fade">
+            <img src="img/slide1.jpg" alt="Slide 1">
+        </div>
+        <div class="slide fade">
+            <img src="img/slide2.jpg" alt="Slide 2">
+        </div>
+        <div class="slide fade">
+            <img src="img/slide3.jpg" alt="Slide 3">
+        </div>
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+</section>
+
+    
+
 <!-- JavaScript for Slideshow -->
 <script>
     let slideIndex = 1;
@@ -376,16 +128,6 @@
     setInterval(() => {
         changeSlide(1);
     }, 5000); // Change slide every 5 seconds
-</script>
-<script>
-    // Get the query parameters from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const message = urlParams.get('message');
-
-    // If a message exists, show it in an alert
-    if (message) {
-        alert(message);
-    }
 </script>
 
 </body>
