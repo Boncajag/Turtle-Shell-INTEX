@@ -3,39 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>User Home Page</title>
     <link rel="stylesheet" href="/landing.css">
 </head>
 <body>
     <header>
-        <h1 style="font-size: 1.5em; text-align: center;">User Home Page</h1>
-        <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
-            <a href="/" style="margin-right: 15px; text-decoration: none; color: #333;">Public Home</a>
-        </nav>
+        <div class="header-container">
+            <h1>User Home Page</h1>
+            <nav>
+                <a href="/">Public Home</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="hero">
-        <h1>Welcome, <%= username %>!</h1>
-    </div>
+    <section class="hero">
+        <h2>Welcome, <%= username %>!</h2>
+    </section>
 
-    <div class="action-section">
+    <section class="action-section">
         <h2>Maintenance Options</h2>
-        <form action="/viewSignups" method="GET" style="display:inline;">
-            <button type="submit" class="button-link">View Sign Ups</button>
-        </form>
-        <form action="/userMaintenance" method="GET" style="display:inline;">
-            <button type="submit" class="button-link">User Maintenance</button>
-        </form>
-        <form action="/volunteerMaintenance" method="GET" style="display:inline;">
-            <button type="submit" class="button-link">Volunteer Maintenance</button>
-        </form>
-        <form action="/eventMaintenance" method="GET" style="display:inline;">
-            <button type="submit" class="button-link">Event Maintenance</button>
-        </form>
-        <form action="/tableauDash" method="GET" style="display:inline;">
-            <button type="submit" class="button-link">View Dashboard</button>
-        </form>
-    </div>
+        <div class="action-cards">
+            <form action="/viewSignups" method="GET" class="card">
+                <button type="submit" class="button-link">View Sign Ups</button>
+            </form>
+            <form action="/userMaintenance" method="GET" class="card">
+                <button type="submit" class="button-link">User Maintenance</button>
+            </form>
+            <form action="/volunteerMaintenance" method="GET" class="card">
+                <button type="submit" class="button-link">Volunteer Maintenance</button>
+            </form>
+            <form action="/eventMaintenance" method="GET" class="card">
+                <button type="submit" class="button-link">Event Maintenance</button>
+            </form>
+            <form action="/tableauDash" method="GET" class="card">
+                <button type="submit" class="button-link">View Dashboard</button>
+            </form>
+        </div>
+    </section>
 
     <footer>
         <a href="/logout" class="button-link">Logout</a>

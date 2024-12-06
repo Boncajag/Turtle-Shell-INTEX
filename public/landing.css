@@ -1,168 +1,151 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Libre Baskerville', serif;
     margin: 0;
     padding: 0;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     color: #333;
 }
+
 header {
     background-color: #869986;
-    color: #333;
-    padding: 1px;
-    text-align: center;
+    color: white;
+    padding: 20px 10%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    text-align: left;
+}
+
+header nav {
+    text-align: right;
+    padding-top: 10px;
+}
+
+header nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Hero Section */
 .hero {
     background-color: #D1D1D1;
-    padding: 80px 40px;
+    padding: 80px 20px;
     text-align: center;
     border: 2px solid #D2D2D2;
+    margin-bottom: 40px;
 }
-.hero h1 {
+
+.hero h2 {
     font-size: 2.5em;
-    margin: 0 0 10px;
+    margin: 0;
     color: #333;
 }
-.hero p {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-.info-section {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 40px 20px;
-    background-color: #F8F8F8;
-}
-.info-text {
-    max-width: 40%;
-}
-.info-text h2 {
-    font-size: 1.8em;
-    color: #333;
-}
-.info-text p {
-    font-size: 1.2em;
-    color: #666;
-    line-height: 1.6;
-}
-.info-highlight {
-    background-color: #FFF2CF;
-    padding: 20px;
-    margin-top: 20px;
-    border-left: 4px solid #E7E5D6;
-}
+
+/* Action Section */
 .action-section {
     padding: 40px 20px;
-    background-color: #F5F5F5;
+    background-color: #f0f0f0;
     text-align: center;
 }
+
 .action-section h2 {
     font-size: 2em;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #333;
 }
+
 .action-cards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
+
 .card {
     background-color: white;
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-.card img {
-    width: 100%;
-    border-radius: 10px;
-}
-.card p {
-    margin-top: 10px;
-    color: #666;
-}
-.card button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #FFF2CF;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.card button:hover {
-    background-color: #FFF2CF;
-}
-
-.button-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF; /* Button color */
-    color: white; /* Text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    text-align: center; /* Center text */
-    border: none; /* Optional: Remove border */
-    cursor: pointer; /* Make it look clickable */
-    margin: 5px; /* Space between buttons */
-}
-.button-link:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-}
-.button-link:active {
-    background-color: #004085; /* Even darker on click */
-}
-
-footer {
-    background-color: #333;
-    color: rgb(0, 0, 0);
-    padding: 10px 0;
-    text-align: center;
-}
-
-/* Login-specific styles */
-.login-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full height of the viewport */
-    width: 100%; /* Full width of the viewport */
-    padding: 20px;
-    box-sizing: border-box;
-}
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
+    width: 250px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.login-box .form-group {
-    margin-bottom: 15px;
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
-.login-box .form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-.login-box .form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.login-box .form-group button {
+
+.card button {
     width: 100%;
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #869986;
     color: white;
     border: none;
     border-radius: 5px;
+    font-size: 1.1em;
     cursor: pointer;
-    font-size: 16px;
 }
-.login-box .form-group button:hover {
-    background-color: #0056b3;
+
+.card button:hover {
+    background-color: #697c69;
 }
+
+/* Button Link Styles */
+.button-link {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #869986;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background-color: #666;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 12px 25px;
+    background-color: #869986;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-link:hover {
+    background-color: #697c69;
+    transform: translateY(-5px);
+}
+
+.footer-link:active {
+    background-color: #505f4b;
+    transform: translateY(2px);
+}
+
