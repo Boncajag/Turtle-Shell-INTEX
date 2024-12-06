@@ -3,49 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tableau Dashboard</title>
     <link rel="stylesheet" href="schedule.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .tableauPlaceholder {
+            width: 100%; /* Ensure it fits the screen width */
+            max-width: 100%; /* Prevent overflow */
+            height: calc(100vh - 65px); /* Adjust to fit within viewport height */
+            position: relative;
+        }
+
+        .tableauViz {
+            width: 100%; /* Make dashboard dynamically fit container */
+            height: 100%; /* Match height of container */
+            border: none;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #869986;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #6d7b6d;
+        }
+    </style>
 </head>
 <body>
   <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
     <h1 style="margin: 0;">Tableau Dashboard</h1>
-    <p>Schedule Your Event</p>
     <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
       <a href="/internalLanding" style="margin-right: 15px; text-decoration: none; color: #333;">Admin Home</a>
-      </div>
       <a href="/logout" style="margin-right: 15px; text-decoration: none; color: #333;">Logout</a>
-  </nav>
-</header>
-    <form action="/tableauDash" method="GET">
-      <div class='tableauPlaceholder' id='viz1733442150710' style='position: relative'>
+    </nav>
+  </header>
+  <form action="/tableauDash" method="GET" style="height: calc(100vh - 65px);">
+    <div class='tableauPlaceholder' id='viz1733442672938'>
+        <button class="fullscreen-btn" onclick="goFullscreen(event)">Full Screen</button>
         <noscript>
-          <a href='#'><img alt='Turtle Shelter Project Dashboard ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTEXDashboard_17334420941250&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a>
+            <a href='#'>
+                <img 
+                    alt='Turtle Shelter Project Dashboard' 
+                    src='https://public.tableau.com/static/images/IN/INTEXDashboard_17334420941250/Dashboard1/1_rss.png' 
+                    style='border: none' 
+                />
+            </a>
         </noscript>
-        <object class='tableauViz'  style='display:none;'>
-          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
-          <param name='embed_code_version' value='3' /> 
-          <param name='site_root' value='' />
-          <param name='name' value='INTEXDashboard_17334420941250&#47;Dashboard1' />
-          <param name='tabs' value='no' /><param name='toolbar' value='yes' />
-          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47 INTEXDashboard_17334420941250&#47;Dashboard1&#47;1.png' /> 
-          <param name='animate_transition' value='yes' />
-          <param name='display_static_image' value='yes' />
-          <param name='display_spinner' value='yes' />
-          <param name='display_overlay' value='yes' />
-          <param name='display_count' value='yes' />
-          <param name='language' value='en-US' />
-          <param name='filter' value='publish=yes' />
-        </object></div>                
-        <script type='text/javascript'>                    
-          var divElement = document.getElementById('viz1733442150710');                    
-          var vizElement = divElement.getElementsByTagName('object')[0];                    
-          if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1266px';vizElement.style.height='795px';} 
-          else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1266px';vizElement.style.height='795px';} 
-          else { vizElement.style.width='100%';vizElement.style.height='2227px';}                     
-          var scriptElement = document.createElement('script');                    
-              scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-              vizElement.parentNode.insertBefore(scriptElement, vizElement);                
-        </script>
-      </form>
+        <object class='tableauViz'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='INTEXDashboard_17334420941250/Dashboard1' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/IN/INTEXDashboard_17334420941250/Dashboard1/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+            <param name='filter' value='publish=yes' />
+        </object>
+    </div>
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1733442672938');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+
+        // Fullscreen functionality
+        function goFullscreen(event) {
+            event.preventDefault();
+            var elem = document.getElementById('viz1733442672938');
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        }
+    </script>
+  </form>
 </body>
 </html>
