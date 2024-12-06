@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Signup</title>
+    <link rel="stylesheet" href="eventMaintenance.css">
+</head>
+<body>
+    <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
+        <h1 style="margin: 0;">Events Signup</h1>
+        <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
+            <a href="/" style="margin-right: 15px; text-decoration: none; color: #333;">Home</a>
+            <a href="/logout" style="margin-right: 15px; text-decoration: none; color: #333;">Logout</a>
+        </nav>
+    </header>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Host Name</th>
+                    <th>Host Email</th>
+                    <th>Host Phone Number</th>
+                    <th>Type</th>
+                    <th>Participants Est.</th>
+                    <th>Duration Est.</th>
+                    <th>Jen's Story</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% approvedEvents.forEach(event => { %>
+                    <tr>
+                        <td>
+                            <form action="/signupEvent" method="post">
+                                <input type="hidden" name="event_id" value="<%= event.event_id %>">
+                                <input type="hidden" name="event_date_time" value="<%= event.event_date_time %>">
+                                <input type="hidden" name="event_host_first_name" value="<%= event.event_host_first_name %>">
+                                <input type="hidden" name="event_host_last_name" value="<%= event.event_host_last_name %>">
+                                <input type="hidden" name="event_host_email" value="<%= event.event_host_email %>">
+                                <button type="submit">Volunteer</button>
+                            </form>
+                            <br>
+                            <form action="/declineEvent" method="post" style="display: inline;">
+                                <input type="hidden" name="event_id" value="<%= event.event_id %>">
+                                <input type="hidden" name="event_date_time" value="<%= event.event_date_time %>">
+                                <input type="hidden" name="event_host_first_name" value="<%= event.event_host_first_name %>">
+                                <input type="hidden" name="event_host_last_name" value="<%= event.event_host_last_name %>">
+                                <input type="hidden" name="event_host_email" value="<%= event.event_host_email %>">
+                                <button type="submit">Decline</button>
+                            </form>
+                        </td>
+                        <td><%= new Date(event.event_date_time).toLocaleString() %></td>
+                        <td><%= event.event_address %>, <%= event.event_city %>, <%= event.event_state %>, <%= event.event_zip_code %></td>
+                        <td><%= event.event_host_first_name %> <%= event.event_host_last_name %></td>
+                        <td><%= event.event_host_email %></td>
+                        <td>(<%= event.event_host_area_code %>) <%= event.event_host_phone_number %></td>
+                        <td><%= event.event_type %></td>
+                        <td><%= event.participants_estimate %></td>
+                        <td><%= event.duration_estimate %> (hrs)</td>
+                        <td><%= event.jen_story %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
