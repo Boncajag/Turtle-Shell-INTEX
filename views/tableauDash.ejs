@@ -3,16 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tableau Dashboard</title>
     <link rel="stylesheet" href="schedule.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .tableauPlaceholder {
+            width: 100%; /* Ensure it fits the screen width */
+            max-width: 100%; /* Prevent overflow */
+            height: calc(100vh - 65px); /* Adjust to fit within viewport height */
+            position: relative;
+        }
+
+        .tableauViz {
+            width: 100%; /* Make dashboard dynamically fit container */
+            height: 100%; /* Match height of container */
+            border: none;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #869986;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #6d7b6d;
+        }
+    </style>
 </head>
 <body>
   <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
     <h1 style="margin: 0;">Tableau Dashboard</h1>
-    <p>Schedule Your Event</p>
     <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
       <a href="/internalLanding" style="margin-right: 15px; text-decoration: none; color: #333;">Admin Home</a>
-      </div>
       <a href="/logout" style="margin-right: 15px; text-decoration: none; color: #333;">Logout</a>
   </nav>
 </header>
