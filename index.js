@@ -152,7 +152,13 @@ app.post('/login', async (req, res) => {
         // Query the database for the user
         const user = await knex('volunteers')
             .where({ username })
-            .andWhere({ title: 'User' }) // Add the condition to check the Title
+            .andWhere({ title: 'User (Admin)' }) // Add the condition to check the Title
+            .first();
+
+        // Query the database for the user
+        const volunteer = await knex('volunteers')
+            .where({ username })
+            .andWhere({ title: 'Volunteer' }) // Add the condition to check the Title
             .first();
 
         if (user) {
@@ -164,12 +170,175 @@ app.post('/login', async (req, res) => {
             }
         }
 
+        if (volunteer) {
+          // Compare the provided password with the stored password (plaintext)
+          if (volunteer.password === password) {
+              req.session.loggedIn = true;
+              req.session.username = username; // Store username in the session
+              return res.redirect('/eventSignup?username=${username}');
+          }
+      }
+
         // If we reach here, either user not found or password mismatch
         res.render('login', { error: 'Invalid username or password' });
     } catch (error) {
         console.error('Error during login:', error);
         res.render('login', { error: 'Something went wrong' });
     }
+});
+
+// EVENT SIGNUP PAGE
+app.get('/eventSignup', async (req, res) => {
+  try {
+    const volunteer = await knex('volunteers')
+        .select('volunteer_id', 'first_name', 'last_name', 'email')
+        .where({ 'username': req.session.username })
+        .first();
+
+    if (!volunteer) {
+        return res.status(404).send('Volunteer not found.');
+    }
+
+    req.session.volunteer = volunteer; // Store volunteer info in session
+
+    const approvedEvents = await knex('events').where({ status: 'Approved' });
+
+    res.render('eventSignup', { approvedEvents, volunteer });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('An error occurred while retrieving the events.');
+  }
+});
+
+// Post Event to Signups table
+app.post('/signupEvent', async (req, res) => {
+
+  const volunteer = req.session.volunteer; // Assuming the volunteer info is stored in the session
+
+  if (!volunteer) {
+      return res.status(401).send('Unauthorized: Please log in to sign up.');
+  }
+
+  const eventDateTime = new Date(req.body.event_date_time).toISOString(); 
+
+  try {
+      await knex('signups').insert({
+          event_id: req.body.event_id,
+          volunteer_id: volunteer.volunteer_id,
+          first_name: volunteer.first_name,
+          last_name: volunteer.last_name,
+          email: volunteer.email,
+          event_date_time: eventDateTime,
+          event_host_first_name: req.body.event_host_first_name,
+          event_host_last_name: req.body.event_host_last_name,
+          event_host_email: req.body.event_host_email,
+      });
+
+      res.redirect('/eventSignup');
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('An error occurred while signing up for the event.');
+  }
+});
+
+app.post('/declineEvent', async (req, res) => {
+  const { event_id } = req.body;
+
+  const volunteer = req.session.volunteer;
+
+  if (!volunteer) {
+      return res.status(401).send('Unauthorized: Please log in to decline an event.');
+  }
+
+  try {
+      // For example, you could remove the volunteer from the signups table if needed:
+      // await knex('signups').where({ event_id, volunteer_id: volunteer.volunteer_id }).del();
+    await knex('signups')
+    .where({ event_id: event_id, volunteer_id: volunteer.volunteer_id })
+    .del();
+
+      res.redirect('/eventSignup'); // Redirect back to the event signup page
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('An error occurred while declining the event.');
+  }
+});
+
+app.get('/viewSignups', async (req, res) => {
+  try {
+    // Query to get approved events and their corresponding volunteers
+    const approvedEvents = await knex('events')
+      .leftJoin('signups', 'events.event_id', 'signups.event_id')
+      .select(
+        'events.event_id',
+        'events.event_date_time',
+        'events.event_host_first_name',
+        'events.event_host_last_name',
+        'events.event_host_email',
+        'events.event_address',
+        'events.event_city',
+        'events.event_state',
+        'events.event_zip_code',
+        'signups.volunteer_id',
+        'signups.first_name',
+        'signups.last_name',
+        'signups.email'
+      )
+      .where('events.status', 'Approved')
+      .orderBy('events.event_date_time');
+
+    // Group volunteers by event
+    const eventsWithVolunteers = approvedEvents.reduce((acc, event) => {
+      const { event_id, event_date_time, event_host_first_name, event_host_last_name, event_host_email, event_address, event_city, event_state, event_zip_code, volunteer_id, first_name, last_name, email } = event;
+      
+      if (!acc[event_id]) {
+        acc[event_id] = {
+          event_id,
+          event_date_time,
+          event_host_first_name,
+          event_host_last_name,
+          event_host_email,
+          event_address,
+          event_city,
+          event_state,
+          event_zip_code,
+          volunteers: []
+        };
+      }
+      
+      if (volunteer_id) {
+        acc[event_id].volunteers.push({ volunteer_id, first_name, last_name, email });
+      }
+
+      return acc;
+    }, {});
+
+    // Convert the grouped object back to an array
+    const result = Object.values(eventsWithVolunteers);
+
+    res.render('viewSignups', { approvedEvents: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred while retrieving the events and signups.');
+  }
+});
+
+
+app.post('/removeVolunteer', async (req, res) => {
+  try {
+    const { event_id, volunteer_id } = req.body;
+
+    // Delete the signup record for the volunteer from the event
+    await knex('signups')
+      .where({ event_id, volunteer_id })
+      .del();
+
+    // Redirect back to the viewSignups page to see the updated list
+    res.redirect('/viewSignups');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred while removing the volunteer.');
+  }
 });
 
 // INTERNAL LANDING - GET
@@ -471,7 +640,8 @@ app.post('/addUser', (req, res) => {
             event_zip_code: req.body.event_zip_code || '',
             duration_estimate: req.body.duration_estimate || 0,
             participants_estimate: req.body.participants_estimate || 0,
-            jen_story: req.body.jen_story || ''
+            jen_story: req.body.jen_story || '',
+            status: req.body.status || ''
         })
         .then(() => res.redirect('/eventMaintenance'))
         .catch(err => {

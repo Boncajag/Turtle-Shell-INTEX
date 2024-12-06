@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Signups</title>
+    <link rel="stylesheet" href="eventMaintenance.css">
+    <style>
+        /* Add basic styling for dropdown lists */
+        .volunteer-list {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .volunteer-list.active {
+            display: block;
+        }
+
+        .volunteer-item {
+            margin: 5px 0;
+        }
+        .table-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header style="background-color: #869986; color: white; padding: 15px; text-align: center;">
+        <h1 style="margin: 0;">View Event Signups</h1>
+        <nav style="text-align: right; margin-right: 20px; margin-top: -20px;">
+            <a href="/" style="margin-right: 15px; text-decoration: none; color: #333;">Home</a>
+            <a href="/logout" style="margin-right: 15px; text-decoration: none; color: #333;">Logout</a>
+        </nav>
+    </header>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Host Name</th>
+                    <th>Host Email</th>
+                    <th>Location</th>
+                    <th>Volunteers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% approvedEvents.forEach(event => { %>
+                    <tr>
+                        <td><%= new Date(event.event_date_time).toLocaleString() %></td>
+                        <td><%= event.event_host_first_name %> <%= event.event_host_last_name %></td>
+                        <td><%= event.event_host_email %></td>
+                        <td><%= event.event_address %>, <%= event.event_city %>, <%= event.event_state %>, <%= event.event_zip_code %></td>
+                        <td>
+                            <!-- Button to toggle volunteer list -->
+                            <button onclick="toggleVolunteerList('<%= event.event_id %>')">View Volunteers</button>
+                            
+                            <!-- Volunteer list dropdown -->
+                            <div id="volunteer-list-<%= event.event_id %>" class="volunteer-list">
+                                <% event.volunteers.forEach(volunteer => { %>
+                                    <div class="volunteer-item">
+                                        <p><%= volunteer.first_name %> <%= volunteer.last_name %> (<%= volunteer.email %>)</p>
+                                        <!-- Remove Volunteer Button -->
+                                        <form action="/removeVolunteer" method="post" style="display: inline;">
+                                            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+                                            <input type="hidden" name="volunteer_id" value="<%= volunteer.volunteer_id %>">
+                                            <button type="submit">Remove</button>
+                                        </form>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Toggle the visibility of the volunteer list
+        function toggleVolunteerList(eventId) {
+            const volunteerList = document.getElementById(`volunteer-list-${eventId}`);
+            volunteerList.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
