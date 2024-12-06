@@ -108,7 +108,10 @@ app.post('/volunteerSignup', (req, res) => {
         zip_code: req.body.zip_code,
         referall_source: req.body.referall_source,
         sewing_level: req.body.sewing_level,
-        hours_per_month: req.body.hours_per_month
+        hours_per_month: req.body.hours_per_month,
+        title: 'Volunteer',
+        username: req.body.username,
+        password: req.body.password
     })
     .then(() => {
         // Pass a success message as a query parameter
